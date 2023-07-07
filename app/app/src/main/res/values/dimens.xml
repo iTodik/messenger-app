@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- PROFILE PAGE -->
+    <dimen name="profile_side_margin">16dp</dimen>
+    <dimen name="profile_text">22sp</dimen>
+    <dimen name="profile_inner_vertical_margin">50dp</dimen>
+    <dimen name="profile_vertical_margin">80dp</dimen>
+        <!-- profile picture -->
+        <dimen name="profile_picture_width">100dp</dimen>
+        <!-- text box -->
+        <dimen name="profile_text_box_height">35dp</dimen>
+        <dimen name="profile_text_box_radius">15dp</dimen>
+        <dimen name="profile_text_box_vertical_margin">12dp</dimen>
+        <!-- button -->
+        <dimen name="profile_button_width">80dp</dimen>
+        <dimen name="profile_button_height">25dp</dimen>
+        <dimen name="profile_button_radius">5dp</dimen>
+        <dimen name="profile_button_vertical_margin">20dp</dimen>
+
+    <!-- HOME PAGE -->
+    <dimen name="home_large_text">22sp</dimen>
+    <dimen name="home_small_text">16sp</dimen>
+    <dimen name="home_side_margin">16dp</dimen>
+        <!-- list item -->
+        <dimen name="home_profile_picture_width">25dp</dimen>
+        <dimen name="home_list_item_height">80dp</dimen>
+        <dimen name="home_list_item_vertical_margin">16dp</dimen>
+        <dimen name="home_list_item_inner_vertical_margin">16dp</dimen>
+        <dimen name="home_list_item_inner_horizontal_margin">8dp</dimen>
+        <!-- search bar -->
+        <dimen name="home_search_height">50dp</dimen>
+        <dimen name="home_search_radius">25dp</dimen>
+
+    <!-- SEARCH PAGE -->
+    <!-- we use same text dimensions and side margin as in home page -->
+        <!-- list item -->
+        <dimen name="search_profile_picture_width">25dp</dimen>
+        <dimen name="search_list_item_height">60dp</dimen>
+        <dimen name="search_list_item_inner_vertical_margin">4dp</dimen>
+        <dimen name="search_list_item_inner_horizontal_margin">8dp</dimen>
+        <!-- search bar dimensions are the same as in home page -->
+        <!-- back button -->
+        <dimen name="search_back_button_width">50dp</dimen>
+
+    <!-- CHAT PAGE -->
+    <dimen name="chat_side_margin">16dp</dimen>
+    <dimen name="chat_big_text">24sp</dimen>
+    <dimen name="chat_medium_text">20sp</dimen>
+    <dimen name="chat_small_text">14sp</dimen>
+        <!-- chat item -->
+        <dimen name="chat_space_around_text">16dp</dimen>
+        <dimen name="chat_same_person_vertical_margin">8dp</dimen>
+        <dimen name="chat_different_person_vertical_margin">16dp</dimen>
+        <!-- message box -->
+        <dimen name="chat_message_height">60dp</dimen>
+        <dimen name="chat_message_radius">28dp</dimen>
+
+    <!-- SIGNING PAGES -->
+    <dimen name="sign_small_text">20sp</dimen>
+    <!-- otherwise same dimensions as profile page -->
+
+</resources>

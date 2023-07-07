@@ -1,0 +1,1 @@
+folder for viewmodel classes and related model objects.
