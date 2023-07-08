@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "643620058705",
+    "project_id": "ge-itodadze-messengerapp",
+    "storage_bucket": "ge-itodadze-messengerapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:643620058705:android:2f3a1d1dcd7eef9e4b6a70",
+        "android_client_info": {
+          "package_name": "ge.itodadze.messengerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "643620058705-212pu0hvrufk60r5msghmjdop907ud9t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB342YmOIPAuPBG8G6dYjQEtqefWPAb2D0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "643620058705-212pu0hvrufk60r5msghmjdop907ud9t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
