@@ -9,13 +9,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        /* WORKS JUST USED FOR TESTING
+        /*
 
         val database = Firebase.database(getString(R.string.db_location))
         val myRef = database.getReference("message")
 
         myRef.setValue("Hello, World!")
 
-         */
+        */
+
     }
 }
