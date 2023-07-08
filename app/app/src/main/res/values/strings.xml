@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Messenger App</string>
+    <string name="db_location">https://ge-itodadze-messengerapp-default-rtdb.asia-southeast1.firebasedatabase.app/</string>
 </resources>
