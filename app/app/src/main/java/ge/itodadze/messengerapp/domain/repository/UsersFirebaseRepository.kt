@@ -5,39 +5,37 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import ge.itodadze.messengerapp.R
-import ge.itodadze.messengerapp.data.models.User
-import ge.itodadze.messengerapp.presenter.listeners.UsersRepositoryListener
+import ge.itodadze.messengerapp.viewmodel.models.User
+import ge.itodadze.messengerapp.viewmodel.callback.RepositoryCallback
 
-class UsersFirebaseRepository(private val listener: UsersRepositoryListener): UsersRepository {
+class UsersFirebaseRepository: UsersRepository {
 
     private var reference: DatabaseReference = Firebase
         .database(Resources.getSystem().getString(R.string.db_location))
         .getReference("users")
 
-    override fun requestUsername(user: User) {
-        if (user.nickname == null) return
-        reference.child(user.nickname).get().addOnSuccessListener{
-            listener.onUsername(it.value as User?)
+    override fun get(nickname: String?, callback: RepositoryCallback<User>?) {
+        if (nickname == null) {
+            callback?.onFailure("Nickname not provided.")
+            return
+        }
+        reference.child(nickname).get().addOnSuccessListener {
+            callback?.onSuccess(it.value as User?)
         }.addOnFailureListener {
-            listener.onUsername(null)
+            callback?.onFailure("User with a given nickname not found.")
         }
     }
 
-    override fun requestUsernamePassword(user: User) {
-        if (user.nickname == null || user.passwordHash == null) return
-        reference.child(user.nickname).get().addOnSuccessListener{
-            if ((it.value as User?)?.passwordHash == user.passwordHash) {
-                listener.onUsernamePassword(it.value as User?)
-            }
-            listener.onUsernamePassword(null)
-        }.addOnFailureListener{
-            listener.onUsernamePassword(null)
+    override fun add(user: User?, callback: RepositoryCallback<User>?) {
+        if (user == null) {
+            callback?.onFailure("User not provided.")
+        } else if (user.nickname == null
+            || user.passwordHash == null || user.profession == null) {
+            callback?.onFailure("Not enough information provided.")
+        } else {
+            reference.child(user.nickname).setValue(user)
+            callback?.onSuccess(user)
         }
     }
 
-    override fun add(user: User): Boolean {
-        if (user.nickname == null) return false
-        reference.child(user.nickname).setValue(user)
-        return true
-    }
 }
