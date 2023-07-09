@@ -6,7 +6,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import ge.itodadze.messengerapp.R
 import ge.itodadze.messengerapp.viewmodel.models.User
-import ge.itodadze.messengerapp.viewmodel.callback.RepositoryCallback
+import ge.itodadze.messengerapp.viewmodel.callback.CallbackHandler
 
 class UsersFirebaseRepository: UsersRepository {
 
@@ -14,27 +14,27 @@ class UsersFirebaseRepository: UsersRepository {
         .database(Resources.getSystem().getString(R.string.db_location))
         .getReference("users")
 
-    override fun get(nickname: String?, callback: RepositoryCallback<User>?) {
+    override fun get(nickname: String?, handler: CallbackHandler<User>?) {
         if (nickname == null) {
-            callback?.onFailure("Nickname not provided.")
+            handler?.onResultEmpty("Nickname not provided.")
             return
         }
         reference.child(nickname).get().addOnSuccessListener {
-            callback?.onSuccess(it.value as User?)
+            handler?.onResult(it.value as User?)
         }.addOnFailureListener {
-            callback?.onFailure("User with a given nickname not found.")
+            handler?.onResultEmpty("User with a given nickname not found.")
         }
     }
 
-    override fun add(user: User?, callback: RepositoryCallback<User>?) {
+    override fun add(user: User?, handler: CallbackHandler<User>?) {
         if (user == null) {
-            callback?.onFailure("User not provided.")
+            handler?.onResultEmpty("User not provided.")
         } else if (user.nickname == null
             || user.passwordHash == null || user.profession == null) {
-            callback?.onFailure("Not enough information provided.")
+            handler?.onResultEmpty("Not enough information provided.")
         } else {
             reference.child(user.nickname).setValue(user)
-            callback?.onSuccess(user)
+            handler?.onResult(user)
         }
     }
 

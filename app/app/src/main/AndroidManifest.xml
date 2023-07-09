@@ -12,7 +12,7 @@
         android:theme="@style/Theme.MessengerApp"
         tools:targetApi="31">
         <activity
-            android:name=".view.activity.MainActivity"
+            android:name=".view.activity.SignInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,6 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.activity.SignUpActivity"/>
+        <activity android:name=".view.activity.MainActivity"/>
     </application>
 
 </manifest>
