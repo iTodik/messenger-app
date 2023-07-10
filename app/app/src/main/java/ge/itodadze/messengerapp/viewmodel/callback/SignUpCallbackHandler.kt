@@ -7,6 +7,8 @@ class SignUpCallbackHandler(private val listener: CallbackListener?): CallbackHa
     override fun onResult(result: User?) {
         if (result == null) {
             listener?.onFailure("User could not be added.")
+        } else if(result.identifier == null) {
+            listener?.onFailure("Could not generate id.")
         } else {
             listener?.onSuccess()
         }

@@ -18,8 +18,8 @@
         <item name="android:textSize">@dimen/profile_text</item>
     </style>
 
-    <style name="signUpButton">
-        <item name="android:background">@drawable/sign_up_rect</item>
+    <style name="jumpSignUpButton">
+        <item name="android:background">@drawable/jump_sign_up_rect</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_width">@dimen/profile_button_width</item>
         <item name="android:layout_height">@dimen/profile_button_height</item>

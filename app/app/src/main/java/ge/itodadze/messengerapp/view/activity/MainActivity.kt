@@ -8,15 +8,5 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        /*
-
-        val database = Firebase.database(getString(R.string.db_location))
-        val myRef = database.getReference("message")
-
-        myRef.setValue("Hello, World!")
-
-        */
-
     }
 }

@@ -73,7 +73,7 @@
         />
 
     <TextView
-        style="@style/signUpButton"
+        style="@style/jumpSignUpButton"
         android:id="@+id/sign_up_button"
         android:layout_marginTop="@dimen/profile_text_box_vertical_margin"
         android:layout_marginStart="@dimen/profile_side_margin"

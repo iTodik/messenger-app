@@ -7,6 +7,7 @@ import com.google.firebase.ktx.Firebase
 import ge.itodadze.messengerapp.R
 import ge.itodadze.messengerapp.viewmodel.models.User
 import ge.itodadze.messengerapp.viewmodel.callback.CallbackHandler
+import java.util.*
 
 class UsersFirebaseRepository: UsersRepository {
 
@@ -33,7 +34,7 @@ class UsersFirebaseRepository: UsersRepository {
             || user.passwordHash == null || user.profession == null) {
             handler?.onResultEmpty("Not enough information provided.")
         } else {
-            reference.child(user.nickname).setValue(user)
+            reference.child(user.nickname).setValue(user.withId(UUID.randomUUID().toString()))
             handler?.onResult(user)
         }
     }
