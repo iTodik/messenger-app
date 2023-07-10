@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Messenger App</string>
     <string name="db_location">https://ge-itodadze-messengerapp-default-rtdb.asia-southeast1.firebasedatabase.app/</string>
+
+    <!-- signing strings -->
+    <string name="avatar_placeholder_desc">Placeholder for avatar</string>
+    <string name="nickname_hint">Enter your nickname</string>
+    <string name="password_hint">Enter your password</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="registration_question_text">Not registered?</string>
+    <string name="profession_hint">What I do</string>
 </resources>

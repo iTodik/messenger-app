@@ -1,15 +1,23 @@
 package ge.itodadze.messengerapp.viewmodel
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import ge.itodadze.messengerapp.domain.repository.UsersFirebaseRepository
 import ge.itodadze.messengerapp.viewmodel.models.User
 import ge.itodadze.messengerapp.domain.repository.UsersRepository
 import ge.itodadze.messengerapp.viewmodel.callback.SignUpCallbackHandler
 import ge.itodadze.messengerapp.viewmodel.callback.SignUpCheckExistsCallbackHandler
 import ge.itodadze.messengerapp.viewmodel.listener.CallbackListener
+import kotlinx.coroutines.launch
 
 class SignUpViewModel(val usersRepository: UsersRepository): ViewModel() {
+
+    private val _failure = MutableLiveData<String>()
+    val failure: LiveData<String>
+        get() = _failure
+
+    private val _signedUpNickname = MutableLiveData<String>()
+    val signedUpNickname: LiveData<String>
+        get() = _signedUpNickname
 
     fun trySignUp(nickname: String?, passwordHash: String?, profession: String?) {
         usersRepository.get(nickname, SignUpCheckExistsCallbackHandler(
@@ -19,18 +27,24 @@ class SignUpViewModel(val usersRepository: UsersRepository): ViewModel() {
                         User(nickname=nickname, passwordHash=passwordHash, profession=profession),
                     SignUpCallbackHandler(object: CallbackListener {
                         override fun onSuccess() {
-                            // Sign Up Done
+                            viewModelScope.launch{
+                                _signedUpNickname.value = nickname
+                            }
                         }
 
                         override fun onFailure(message: String?) {
-                            // Could Not Sign Up
+                            viewModelScope.launch{
+                                _failure.value = message
+                            }
                         }
                     })
                     )
                 }
 
                 override fun onFailure(message: String?) {
-                    // User Already Exists
+                    viewModelScope.launch{
+                        _failure.value = message
+                    }
                 }
 
             }

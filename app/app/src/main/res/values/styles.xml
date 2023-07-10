@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="signingInputBox" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/signing_input_rect</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/profile_text_box_height</item>
+        <item name="android:textColor">@color/text_grey</item>
+        <item name="android:textSize">@dimen/profile_text</item>
+    </style>
+
+    <style name="signButton">
+        <item name="android:background">@drawable/signing_button_rect</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">@dimen/profile_button_width</item>
+        <item name="android:layout_height">@dimen/profile_button_height</item>
+        <item name="android:textColor">@color/text_white</item>
+        <item name="android:textSize">@dimen/profile_text</item>
+    </style>
+
+    <style name="signUpButton">
+        <item name="android:background">@drawable/sign_up_rect</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">@dimen/profile_button_width</item>
+        <item name="android:layout_height">@dimen/profile_button_height</item>
+        <item name="android:textColor">@color/text_grey</item>
+        <item name="android:textSize">@dimen/profile_text</item>
+    </style>
+</resources>
