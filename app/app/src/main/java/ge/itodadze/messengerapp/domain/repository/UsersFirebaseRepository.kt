@@ -1,18 +1,16 @@
 package ge.itodadze.messengerapp.domain.repository
 
-import android.content.res.Resources
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import ge.itodadze.messengerapp.R
 import ge.itodadze.messengerapp.viewmodel.models.User
 import ge.itodadze.messengerapp.viewmodel.callback.CallbackHandler
 import java.util.*
 
-class UsersFirebaseRepository: UsersRepository {
+class UsersFirebaseRepository(dbUrl: String): UsersRepository {
 
     private var reference: DatabaseReference = Firebase
-        .database(Resources.getSystem().getString(R.string.db_location))
+        .database(dbUrl)
         .getReference("users")
 
     override fun get(nickname: String?, handler: CallbackHandler<User>?) {

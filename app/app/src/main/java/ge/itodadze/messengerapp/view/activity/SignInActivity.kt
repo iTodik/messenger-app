@@ -11,7 +11,7 @@ import ge.itodadze.messengerapp.viewmodel.SignInViewModel
 class SignInActivity: AppCompatActivity() {
 
     private val viewModel: SignInViewModel by viewModels {
-        SignInViewModel.getSignInViewModelFactory()
+        SignInViewModel.getSignInViewModelFactory(applicationContext)
     }
 
     private lateinit var binding: ActivitySignInBinding

@@ -1,6 +1,8 @@
 package ge.itodadze.messengerapp.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.*
+import ge.itodadze.messengerapp.R
 import ge.itodadze.messengerapp.domain.repository.UsersFirebaseRepository
 import ge.itodadze.messengerapp.viewmodel.models.User
 import ge.itodadze.messengerapp.domain.repository.UsersRepository
@@ -52,16 +54,16 @@ class SignUpViewModel(val usersRepository: UsersRepository): ViewModel() {
     }
 
     companion object {
-        fun getSignUpViewModelFactory(): SignUpViewModelFactory {
-            return SignUpViewModelFactory()
+        fun getSignUpViewModelFactory(context: Context): SignUpViewModelFactory {
+            return SignUpViewModelFactory(context)
         }
     }
 
 }
 
 @Suppress("UNCHECKED_CAST")
-class SignUpViewModelFactory: ViewModelProvider.Factory {
+class SignUpViewModelFactory(private val context: Context): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return SignUpViewModel(UsersFirebaseRepository()) as T
+        return SignUpViewModel(UsersFirebaseRepository(context.resources.getString(R.string.db_location))) as T
     }
 }

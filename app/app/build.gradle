@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace 'ge.itodadze.messengerapp'
-    compileSdk 34
+    compileSdk 33
 
     defaultConfig {
         applicationId "ge.itodadze.messengerapp"
         minSdk 24
-        targetSdk 34
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 

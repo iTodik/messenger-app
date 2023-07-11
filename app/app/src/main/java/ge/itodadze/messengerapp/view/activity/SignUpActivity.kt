@@ -10,7 +10,7 @@ import ge.itodadze.messengerapp.viewmodel.SignUpViewModel
 
 class SignUpActivity: AppCompatActivity() {
     private val viewModel: SignUpViewModel by viewModels {
-        SignUpViewModel.getSignUpViewModelFactory()
+        SignUpViewModel.getSignUpViewModelFactory(applicationContext)
     }
 
     private lateinit var binding: ActivitySignUpBinding
