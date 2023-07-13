@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="button_elevation">6dp</dimen>
 
     <!-- PROFILE PAGE -->
     <dimen name="profile_side_margin">20dp</dimen>
