@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="button_elevation">6dp</dimen>
 
     <!-- PROFILE PAGE -->
-    <dimen name="profile_side_margin">16dp</dimen>
+    <dimen name="profile_side_margin">20dp</dimen>
     <dimen name="profile_text">22sp</dimen>
-    <dimen name="profile_inner_vertical_margin">50dp</dimen>
-    <dimen name="profile_vertical_margin">80dp</dimen>
+    <dimen name="profile_inner_vertical_margin">35dp</dimen>
+    <dimen name="profile_vertical_margin">100dp</dimen>
         <!-- profile picture -->
-        <dimen name="profile_picture_width">100dp</dimen>
+        <dimen name="profile_picture_width">210dp</dimen>
         <!-- text box -->
-        <dimen name="profile_text_box_height">35dp</dimen>
-        <dimen name="profile_text_box_radius">15dp</dimen>
+        <dimen name="profile_text_box_height">40dp</dimen>
+        <dimen name="profile_text_box_radius">22dp</dimen>
         <dimen name="profile_text_box_vertical_margin">12dp</dimen>
         <!-- button -->
-        <dimen name="profile_button_width">80dp</dimen>
-        <dimen name="profile_button_height">25dp</dimen>
+        <dimen name="profile_button_width">100dp</dimen>
+        <dimen name="profile_button_height">35dp</dimen>
         <dimen name="profile_button_radius">5dp</dimen>
-        <dimen name="profile_button_vertical_margin">20dp</dimen>
+        <dimen name="profile_button_vertical_margin">24dp</dimen>
 
     <!-- HOME PAGE -->
     <dimen name="home_large_text">22sp</dimen>
@@ -58,6 +59,9 @@
 
     <!-- SIGNING PAGES -->
     <dimen name="sign_small_text">20sp</dimen>
+    <dimen name="sign_middle_vertical_margin">110dp</dimen>
+    <dimen name="sign_up_rect_outline_width">2dp</dimen>
+    <dimen name="sign_up_vertical_margin">60dp</dimen>
     <!-- otherwise same dimensions as profile page -->
 
 </resources>

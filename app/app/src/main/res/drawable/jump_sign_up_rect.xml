@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <corners
+        android:radius="@dimen/profile_button_radius" />
+    <solid android:color="@color/messenger_secondary" />
+    <stroke android:color="@color/text_grey" android:width="@dimen/sign_up_rect_outline_width">
+    </stroke>
+
+</shape>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".view.activity.SignUpActivity">
+
+        <ImageView
+            android:id="@+id/picture"
+            android:layout_width="@dimen/profile_picture_width"
+            android:layout_height="@dimen/profile_picture_width"
+            android:layout_marginTop="@dimen/profile_vertical_margin"
+            android:layout_marginStart="@dimen/profile_side_margin"
+            android:layout_marginEnd="@dimen/profile_side_margin"
+            android:src="@drawable/avatar_placeholder"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="@string/avatar_placeholder_desc" />
+
+        <EditText
+            style="@style/signingInputBox"
+            android:autofillHints="username"
+            android:hint="@string/nickname_hint"
+            android:id="@+id/nickname"
+            android:inputType="text"
+            android:layout_marginTop="@dimen/profile_inner_vertical_margin"
+            android:layout_marginStart="@dimen/profile_side_margin"
+            android:layout_marginEnd="@dimen/profile_side_margin"
+            app:layout_constraintTop_toBottomOf="@+id/picture"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <EditText
+            style="@style/signingInputBox"
+            android:autofillHints="password"
+            android:hint="@string/password_hint"
+            android:id="@+id/password"
+            android:inputType="textPassword"
+            android:layout_marginTop="@dimen/profile_text_box_vertical_margin"
+            android:layout_marginStart="@dimen/profile_side_margin"
+            android:layout_marginEnd="@dimen/profile_side_margin"
+            app:layout_constraintTop_toBottomOf="@+id/nickname"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <EditText
+            style="@style/signingInputBox"
+            android:autofillHints="name"
+            android:hint="@string/profession_hint"
+            android:id="@+id/profession"
+            android:inputType="text"
+            android:layout_marginTop="@dimen/profile_text_box_vertical_margin"
+            android:layout_marginStart="@dimen/profile_side_margin"
+            android:layout_marginEnd="@dimen/profile_side_margin"
+            app:layout_constraintTop_toBottomOf="@+id/password"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            style="@style/signButton"
+            android:id="@+id/sign_up_button"
+            android:layout_marginTop="@dimen/sign_up_vertical_margin"
+            android:layout_marginStart="@dimen/profile_side_margin"
+            android:layout_marginEnd="@dimen/profile_side_margin"
+            android:text="@string/sign_up"
+            app:layout_constraintTop_toBottomOf="@+id/profession"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
