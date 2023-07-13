@@ -19,9 +19,11 @@ class UsersFirebaseRepository(dbUrl: String): UsersRepository {
             return
         }
         reference.child(nickname).get().addOnSuccessListener {
-            handler?.onResult(it.value as User?)
+            if (it.value == null) handler
+                ?.onResultEmpty("User with a given nickname not found.")
+            handler?.onResult(it.getValue(User::class.java))
         }.addOnFailureListener {
-            handler?.onResultEmpty("User with a given nickname not found.")
+            handler?.onResultEmpty("Request failed.")
         }
     }
 
@@ -32,8 +34,9 @@ class UsersFirebaseRepository(dbUrl: String): UsersRepository {
             || user.passwordHash == null || user.profession == null) {
             handler?.onResultEmpty("Not enough information provided.")
         } else {
-            reference.child(user.nickname).setValue(user.withId(UUID.randomUUID().toString()))
-            handler?.onResult(user)
+            val userWithId: User = user.withId(UUID.randomUUID().toString() + user.nickname)
+            reference.child(user.nickname).setValue(userWithId)
+            handler?.onResult(userWithId)
         }
     }
 

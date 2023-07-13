@@ -1,5 +1,6 @@
 package ge.itodadze.messengerapp.view.activity
 
+import android.content.Intent
 import androidx.activity.viewModels
 import android.os.Bundle
 import android.widget.Toast
@@ -44,7 +45,8 @@ class SignInActivity: AppCompatActivity() {
         }
 
         binding.signUpButton.setOnClickListener {
-            // sign up activity
+            val intent = Intent(applicationContext, SignUpActivity::class.java)
+            startActivity(intent)
         }
     }
 }
