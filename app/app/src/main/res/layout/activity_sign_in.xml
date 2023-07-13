@@ -1,86 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/messenger_secondary"
-    tools:context=".view.activity.SignInActivity">
-
-    <ImageView
-        android:id="@+id/picture"
-        android:layout_width="@dimen/profile_picture_width"
-        android:layout_height="@dimen/profile_picture_width"
-        android:layout_marginTop="@dimen/profile_vertical_margin"
-        android:layout_marginStart="@dimen/profile_side_margin"
-        android:layout_marginEnd="@dimen/profile_side_margin"
-        android:src="@drawable/avatar_placeholder"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="@string/avatar_placeholder_desc" />
-
-    <EditText
-        style="@style/signingInputBox"
-        android:autofillHints="username"
-        android:hint="@string/nickname_hint"
-        android:id="@+id/nickname"
-        android:inputType="text"
-        android:layout_marginTop="@dimen/profile_inner_vertical_margin"
-        android:layout_marginStart="@dimen/profile_side_margin"
-        android:layout_marginEnd="@dimen/profile_side_margin"
-        app:layout_constraintTop_toBottomOf="@+id/picture"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <EditText
-        style="@style/signingInputBox"
-        android:autofillHints="password"
-        android:hint="@string/password_hint"
-        android:id="@+id/password"
-        android:inputType="textPassword"
-        android:layout_marginTop="@dimen/profile_text_box_vertical_margin"
-        android:layout_marginStart="@dimen/profile_side_margin"
-        android:layout_marginEnd="@dimen/profile_side_margin"
-        app:layout_constraintTop_toBottomOf="@+id/nickname"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        style="@style/signButton"
-        android:id="@+id/sign_in_button"
-        android:layout_marginTop="@dimen/profile_button_vertical_margin"
-        android:layout_marginStart="@dimen/profile_side_margin"
-        android:layout_marginEnd="@dimen/profile_side_margin"
-        android:text="@string/sign_in"
-        app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/registration_question"
-        android:layout_width="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/sign_middle_vertical_margin"
-        android:layout_marginStart="@dimen/profile_side_margin"
-        android:layout_marginEnd="@dimen/profile_side_margin"
-        android:text="@string/registration_question_text"
-        android:textSize="@dimen/sign_small_text"
-        android:textColor="@color/text_grey"
-        app:layout_constraintTop_toBottomOf="@+id/sign_in_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        android:background="@color/messenger_secondary"
+        tools:context=".view.activity.SignInActivity">
 
-    <TextView
-        style="@style/jumpSignUpButton"
-        android:id="@+id/sign_up_button"
-        android:layout_marginTop="@dimen/profile_text_box_vertical_margin"
-        android:layout_marginStart="@dimen/profile_side_margin"
-        android:layout_marginEnd="@dimen/profile_side_margin"
-        android:text="@string/sign_up"
-        app:layout_constraintTop_toBottomOf="@+id/registration_question"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/picture"
+            android:layout_width="@dimen/profile_picture_width"
+            android:layout_height="@dimen/profile_picture_width"
+            android:layout_marginTop="@dimen/profile_vertical_margin"
+            android:layout_marginStart="@dimen/profile_side_margin"
+            android:layout_marginEnd="@dimen/profile_side_margin"
+            android:src="@drawable/avatar_placeholder"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="@string/avatar_placeholder_desc" />
+
+        <EditText
+            style="@style/signingInputBox"
+            android:autofillHints="username"
+            android:hint="@string/nickname_hint"
+            android:id="@+id/nickname"
+            android:inputType="text"
+            android:layout_marginTop="@dimen/profile_inner_vertical_margin"
+            android:layout_marginStart="@dimen/profile_side_margin"
+            android:layout_marginEnd="@dimen/profile_side_margin"
+            app:layout_constraintTop_toBottomOf="@+id/picture"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <EditText
+            style="@style/signingInputBox"
+            android:autofillHints="password"
+            android:hint="@string/password_hint"
+            android:id="@+id/password"
+            android:inputType="textPassword"
+            android:layout_marginTop="@dimen/profile_text_box_vertical_margin"
+            android:layout_marginStart="@dimen/profile_side_margin"
+            android:layout_marginEnd="@dimen/profile_side_margin"
+            app:layout_constraintTop_toBottomOf="@+id/nickname"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            style="@style/signButton"
+            android:id="@+id/sign_in_button"
+            android:layout_marginTop="@dimen/profile_button_vertical_margin"
+            android:layout_marginStart="@dimen/profile_side_margin"
+            android:layout_marginEnd="@dimen/profile_side_margin"
+            android:text="@string/sign_in"
+            app:layout_constraintTop_toBottomOf="@+id/password"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/registration_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/sign_middle_vertical_margin"
+            android:layout_marginStart="@dimen/profile_side_margin"
+            android:layout_marginEnd="@dimen/profile_side_margin"
+            android:text="@string/registration_question_text"
+            android:textSize="@dimen/sign_small_text"
+            android:textColor="@color/text_grey"
+            app:layout_constraintTop_toBottomOf="@+id/sign_in_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <TextView
+            style="@style/jumpSignUpButton"
+            android:id="@+id/sign_up_button"
+            android:layout_marginTop="@dimen/profile_text_box_vertical_margin"
+            android:layout_marginStart="@dimen/profile_side_margin"
+            android:layout_marginEnd="@dimen/profile_side_margin"
+            android:text="@string/sign_up"
+            app:layout_constraintTop_toBottomOf="@+id/registration_question"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
