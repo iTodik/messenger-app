@@ -9,19 +9,41 @@ import java.util.*
 
 class UsersFirebaseRepository(dbUrl: String): UsersRepository {
 
-    private var reference: DatabaseReference = Firebase
+    private var users: DatabaseReference = Firebase
         .database(dbUrl)
         .getReference("users")
 
-    override fun get(nickname: String?, handler: CallbackHandler<User>?) {
+    private var nicknameToId: DatabaseReference = Firebase
+        .database(dbUrl)
+        .getReference("nickname_to_id")
+
+    override fun get(id: String?, handler: CallbackHandler<User>?) {
+        if (id == null) {
+            handler?.onResultEmpty("Id not provided.")
+            return
+        }
+        users.child(id).get().addOnSuccessListener {
+            handler?.onResult(it.getValue(User::class.java))
+        }.addOnFailureListener {
+            handler?.onResultEmpty("User with a given id not found")
+        }
+    }
+
+    override fun getByNickname(nickname: String?, handler: CallbackHandler<User>?) {
         if (nickname == null) {
             handler?.onResultEmpty("Nickname not provided.")
             return
         }
-        reference.child(nickname).get().addOnSuccessListener {
-            if (it.value == null) handler
-                ?.onResultEmpty("User with a given nickname not found.")
-            handler?.onResult(it.getValue(User::class.java))
+        nicknameToId.child(nickname).get().addOnSuccessListener {
+            if (it.value == null) {
+                handler?.onResultEmpty("User with a given nickname not found.")
+            } else {
+                users.child(it.getValue(String::class.java)!!).get().addOnSuccessListener {
+                    a -> handler?.onResult(a.getValue(User::class.java))
+                }.addOnFailureListener {
+                    handler?.onResultEmpty("User with a given id not found.")
+                }
+            }
         }.addOnFailureListener {
             handler?.onResultEmpty("Request failed.")
         }
@@ -34,8 +56,10 @@ class UsersFirebaseRepository(dbUrl: String): UsersRepository {
             || user.passwordHash == null || user.profession == null) {
             handler?.onResultEmpty("Not enough information provided.")
         } else {
-            val userWithId: User = user.withId(UUID.randomUUID().toString() + user.nickname)
-            reference.child(user.nickname).setValue(userWithId)
+            val id: String = UUID.randomUUID().toString() + user.nickname
+            val userWithId: User = user.withId(id)
+            users.child(id).setValue(userWithId)
+            nicknameToId.child(user.nickname).setValue(id)
             handler?.onResult(userWithId)
         }
     }

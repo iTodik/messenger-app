@@ -21,7 +21,7 @@ class SignInViewModel(private val usersRepository: UsersRepository): ViewModel()
         get() = _signedInNickname
 
     fun trySignIn(nickname: String?, passwordHash: String?) {
-        usersRepository.get(nickname,
+        usersRepository.getByNickname(nickname,
             SignInCallbackHandler(
                 User(nickname=nickname, passwordHash=passwordHash),
                 object : CallbackListener {

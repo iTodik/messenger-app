@@ -22,7 +22,7 @@ class SignUpViewModel(val usersRepository: UsersRepository): ViewModel() {
         get() = _signedUpNickname
 
     fun trySignUp(nickname: String?, passwordHash: String?, profession: String?) {
-        usersRepository.get(nickname, SignUpCheckExistsCallbackHandler(
+        usersRepository.getByNickname(nickname, SignUpCheckExistsCallbackHandler(
             object: CallbackListener {
                 override fun onSuccess() {
                     usersRepository.add(
