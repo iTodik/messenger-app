@@ -85,7 +85,7 @@ class UsersFirebaseRepository(dbUrl: String): UsersRepository {
                         handler?.onResultEmpty("User with this id does not have a nickname.")
                     } else {
                         nicknameToId.child(oldNickname).removeValue()
-                        nicknameToId.child(nickname)
+                        nicknameToId.child(nickname).setValue(id)
                     }
                     users.child(id).child(NICKNAME).setValue(nickname)
                 }.addOnFailureListener {
@@ -109,7 +109,7 @@ class UsersFirebaseRepository(dbUrl: String): UsersRepository {
     companion object {
         private const val NICKNAME: String = "nickname"
         private const val PROFESSION: String = "profession"
-        private const val IMG_ID: String = "image.jpg"
+        private const val IMG_ID: String = "image.jpeg"
     }
 
 }
