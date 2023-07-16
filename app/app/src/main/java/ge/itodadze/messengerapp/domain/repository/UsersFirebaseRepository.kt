@@ -30,7 +30,13 @@ class UsersFirebaseRepository(dbUrl: String): UsersRepository {
             return
         }
         users.child(id).get().addOnSuccessListener {
-            handler?.onResult(it.getValue(User::class.java))
+            val user: User? = it.getValue(User::class.java)
+            images.child(id).child(IMG_ID).downloadUrl.addOnSuccessListener { uri ->
+                user?.imgUri = uri
+                handler?.onResult(user)
+            }.addOnFailureListener {
+                handler?.onResult(user)
+            }
         }.addOnFailureListener {
             handler?.onResultEmpty("User with a given id not found")
         }
@@ -45,11 +51,7 @@ class UsersFirebaseRepository(dbUrl: String): UsersRepository {
             if (it.value == null) {
                 handler?.onResultEmpty("User with a given nickname not found.")
             } else {
-                users.child(it.getValue(String::class.java)!!).get().addOnSuccessListener {
-                    a -> handler?.onResult(a.getValue(User::class.java))
-                }.addOnFailureListener {
-                    handler?.onResultEmpty("User with a given id not found.")
-                }
+                get(it.getValue(String::class.java), handler)
             }
         }.addOnFailureListener {
             handler?.onResultEmpty("Request failed.")
@@ -76,7 +78,20 @@ class UsersFirebaseRepository(dbUrl: String): UsersRepository {
         if (id == null) {
             handler?.onResultEmpty("User id not provided.")
         } else {
-            if (nickname != null) users.child(id).child(NICKNAME).setValue(nickname)
+            if (nickname != null) {
+                users.child(id).child(NICKNAME).get().addOnSuccessListener {
+                    val oldNickname: String? = it.getValue(String::class.java)
+                    if (oldNickname == null) {
+                        handler?.onResultEmpty("User with this id does not have a nickname.")
+                    } else {
+                        nicknameToId.child(oldNickname).removeValue()
+                        nicknameToId.child(nickname)
+                    }
+                    users.child(id).child(NICKNAME).setValue(nickname)
+                }.addOnFailureListener {
+                    handler?.onResultEmpty("Failed to retrieve user nickname.")
+                }
+            }
             if (profession != null) users.child(id).child(PROFESSION).setValue(profession)
             if (img != null) {
                 val os = ByteArrayOutputStream()
