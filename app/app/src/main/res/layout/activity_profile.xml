@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/messenger_secondary"
+        tools:context=".view.activity.ProfileActivity">
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/profile_picture_width"
+            android:layout_height="@dimen/profile_picture_width"
+            android:layout_marginTop="@dimen/profile_vertical_margin"
+            android:layout_marginStart="@dimen/profile_side_margin"
+            android:layout_marginEnd="@dimen/profile_side_margin"
+            android:src="@drawable/avatar_placeholder"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="@string/avatar_placeholder_desc" />
+
+        <EditText
+            style="@style/signingInputBox"
+            android:autofillHints="username"
+            android:hint="Your Nickname"
+            android:id="@+id/nickname"
+            android:inputType="text"
+            android:layout_marginTop="@dimen/profile_inner_vertical_margin"
+            android:layout_marginStart="@dimen/profile_side_margin"
+            android:layout_marginEnd="@dimen/profile_side_margin"
+            app:layout_constraintTop_toBottomOf="@+id/avatar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <EditText
+            style="@style/signingInputBox"
+            android:autofillHints="name"
+            android:hint="Your Profession"
+            android:id="@+id/profession"
+            android:inputType="text"
+            android:layout_marginTop="@dimen/profile_text_box_vertical_margin"
+            android:layout_marginStart="@dimen/profile_side_margin"
+            android:layout_marginEnd="@dimen/profile_side_margin"
+            app:layout_constraintTop_toBottomOf="@+id/nickname"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            style="@style/signButton"
+            android:id="@+id/update"
+            android:layout_marginTop="@dimen/profile_inner_vertical_margin"
+            android:layout_marginStart="@dimen/profile_side_margin"
+            android:layout_marginEnd="@dimen/profile_side_margin"
+            android:text="Update"
+            app:layout_constraintTop_toBottomOf="@+id/profession"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            style="@style/jumpSignUpButton"
+            android:id="@+id/sign_out"
+            android:layout_marginTop="@dimen/profile_button_vertical_margin"
+            android:layout_marginStart="@dimen/profile_side_margin"
+            android:layout_marginEnd="@dimen/profile_side_margin"
+            android:text="SIGN OUT"
+            app:layout_constraintTop_toBottomOf="@+id/update"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
