@@ -8,5 +8,5 @@
 
     <item android:title="menu item 2"
         android:icon="@drawable/ic_action_profile"
-        app:showAsAction="never"/>
+        app:showAsAction="ifRoom"/>
 </menu>
