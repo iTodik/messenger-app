@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.activity.ChatActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <!-- toolbar content -->
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@drawable/typing_message_box"
+            android:id="@+id/type_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/chat_side_margin"
+            android:layout_marginBottom="@dimen/chat_side_margin"
+            android:layout_marginStart="@dimen/chat_side_margin"
+            android:layout_marginEnd="@dimen/chat_side_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:background="@drawable/send_text_button"
+                android:contentDescription="Button to send text"
+                android:id="@+id/send_text"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintTop_toTopOf="@+id/type_box"
+                app:layout_constraintBottom_toBottomOf="@+id/type_box"
+                app:layout_constraintEnd_toEndOf="@+id/type_box"
+                />
+
+            <EditText
+                android:autofillHints=""
+                android:background="null"
+                android:hint="Message"
+                android:gravity="start"
+                android:id="@+id/input_text"
+                android:inputType="text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:textColor="@color/text_grey"
+                app:layout_constraintTop_toTopOf="@+id/type_box"
+                app:layout_constraintBottom_toBottomOf="@+id/type_box"
+                app:layout_constraintStart_toStartOf="@+id/type_box"
+                app:layout_constraintEnd_toStartOf="@+id/send_text"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/messages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/chat_side_margin"
+            app:layout_constraintTop_toBottomOf="header"
+            app:layout_constraintBottom_toTopOf="@+id/type_box"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

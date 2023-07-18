@@ -26,6 +26,7 @@
         </activity>
         <activity android:name=".view.activity.SignUpActivity"/>
         <activity android:name=".view.activity.MainActivity"/>
+        <activity android:name=".view.activity.ChatActivity"/>
     </application>
 
 </manifest>
