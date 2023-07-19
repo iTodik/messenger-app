@@ -13,11 +13,97 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:background="@color/messenger_primary"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <!-- toolbar content -->
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_gravity="start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/chat_side_margin"
+                android:layout_marginTop="@dimen/chat_side_margin"
+                android:layout_marginBottom="@dimen/chat_side_margin"
+                android:contentDescription="Back Button"
+                android:src="@drawable/arrow_back"
+                app:layout_collapseMode="pin"
+                app:tint="@color/messenger_secondary" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_gravity="bottom"
+                app:layout_collapseMode="pin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        tools:ignore="UselessParent">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="60dp"
+                            android:fitsSystemWindows="true"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical"
+                            app:layout_collapseMode="pin"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:id="@+id/nickname"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Nickname"
+                                android:textColor="@color/text_white"
+                                android:textStyle="bold"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:textSize="@dimen/chat_big_text" />
+
+                            <TextView
+                                android:id="@+id/profession"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:text="Profession"
+                                android:textColor="@color/text_white"
+                                android:textSize="@dimen/chat_small_text" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/avatar"
+                            android:contentDescription="Avatar Photo"
+                            android:layout_marginTop="@dimen/chat_side_margin"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:gravity="end"
+                            android:layout_marginEnd="@dimen/chat_side_margin"
+                            android:scaleType="centerCrop"
+                            android:visibility="visible"
+                            android:foreground="@drawable/avatar_background"
+                            android:src="@drawable/avatar_placeholder"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -73,6 +159,7 @@
                 app:layout_constraintStart_toStartOf="@+id/type_box"
                 app:layout_constraintEnd_toStartOf="@+id/send_text"
                 />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
