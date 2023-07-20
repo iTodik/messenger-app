@@ -14,7 +14,12 @@ import ge.itodadze.messengerapp.viewmodel.listener.CallbackListenerWithResult
 import ge.itodadze.messengerapp.viewmodel.models.User
 import kotlinx.coroutines.launch
 
-class ProfileViewModel(private val usersRepository: UsersRepository): ViewModel() {
+class ProfileViewModel(private val logInManager: LogInManager,
+                       private val usersRepository: UsersRepository): ViewModel() {
+
+    private val _logId = MutableLiveData<String?>()
+    val logId: LiveData<String?>
+        get() = _logId
 
     private val _failure = MutableLiveData<String>()
     val failure: LiveData<String>
@@ -23,6 +28,19 @@ class ProfileViewModel(private val usersRepository: UsersRepository): ViewModel(
     private val _user = MutableLiveData<ViewUser>()
     val user: LiveData<ViewUser>
         get() = _user
+
+    init {
+        val isLogged: Boolean = logInManager.isCurrentlyLogged()
+        viewModelScope.launch {
+            if (isLogged) {
+                viewModelScope.launch {
+                    _logId.value = logInManager.getLoggedUserId()
+                }
+            } else {
+                _logId.value = null
+            }
+        }
+    }
 
     fun get(id: String) {
         usersRepository.get(id, GetUserCallbackHandler(
@@ -56,7 +74,12 @@ class ProfileViewModel(private val usersRepository: UsersRepository): ViewModel(
     }
 
     fun trySignOut(userId: String?) {
-        // sign out
+        viewModelScope.launch {
+            if (userId != null && _logId.value == userId) {
+                logInManager.logOut()
+            }
+            _logId.value = null
+        }
     }
 
     companion object {
@@ -69,6 +92,8 @@ class ProfileViewModel(private val usersRepository: UsersRepository): ViewModel(
 @Suppress("UNCHECKED_CAST")
 class ProfileViewModelFactory(private val context: Context): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return ProfileViewModel(UsersFirebaseRepository(context.resources.getString(R.string.db_location))) as T
+        return ProfileViewModel(
+            LogInManager(context.getSharedPreferences(LogInManager.FILE_NAME, Context.MODE_PRIVATE)),
+            UsersFirebaseRepository(context.resources.getString(R.string.db_location))) as T
     }
 }

@@ -1,5 +1,6 @@
 package ge.itodadze.messengerapp.view.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -23,7 +24,6 @@ class SignUpActivity: AppCompatActivity() {
         registerObservers()
 
         registerListeners()
-
     }
 
     private fun registerObservers() {
@@ -31,9 +31,9 @@ class SignUpActivity: AppCompatActivity() {
             if (it != null) Toast.makeText(applicationContext, it, Toast.LENGTH_SHORT).show()
         }
 
-        viewModel.signedUpNickname.observe(this){
-            // now we are signed up
-
+        viewModel.signedUpId.observe(this){
+            val intent = Intent(applicationContext, MainActivity::class.java)
+            startActivity(intent)
         }
     }
 

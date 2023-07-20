@@ -25,7 +25,6 @@ class SignInActivity: AppCompatActivity() {
         registerObservers()
 
         registerListeners()
-
     }
 
     private fun registerObservers() {
@@ -33,8 +32,7 @@ class SignInActivity: AppCompatActivity() {
             if (it != null) Toast.makeText(applicationContext, it, Toast.LENGTH_SHORT).show()
         }
 
-        viewModel.signedInNickname.observe(this){
-            // add user to shared preference later
+        viewModel.signedInId.observe(this){
             val intent = Intent(applicationContext, MainActivity::class.java)
             startActivity(intent)
         }

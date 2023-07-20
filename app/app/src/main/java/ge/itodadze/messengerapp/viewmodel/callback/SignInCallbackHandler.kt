@@ -1,17 +1,18 @@
 package ge.itodadze.messengerapp.viewmodel.callback
 
 import ge.itodadze.messengerapp.viewmodel.models.User
-import ge.itodadze.messengerapp.viewmodel.listener.CallbackListener
+import ge.itodadze.messengerapp.viewmodel.listener.CallbackListenerWithResult
 
-class SignInCallbackHandler(private val initialUser: User, private val listener: CallbackListener?):
+class SignInCallbackHandler(private val initialUser: User,
+                            private val listener: CallbackListenerWithResult<User>?):
     CallbackHandler<User> {
     override fun onResult(result: User?) {
-        if (result == null) {
+        if (result?.identifier == null) {
             listener?.onFailure("Could not access User.")
         } else if (initialUser.passwordHash != result.passwordHash) {
             listener?.onFailure("Incorrect password provided.")
         } else {
-            listener?.onSuccess()
+            listener?.onSuccess(result)
         }
     }
 

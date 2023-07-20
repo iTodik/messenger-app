@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import ge.itodadze.messengerapp.R
 import ge.itodadze.messengerapp.databinding.FragmentProfileBinding
+import ge.itodadze.messengerapp.view.activity.SignInActivity
 import ge.itodadze.messengerapp.viewmodel.ProfileViewModel
 
 class ProfileFragment(private val parent: AppCompatActivity,
@@ -35,14 +36,20 @@ class ProfileFragment(private val parent: AppCompatActivity,
     ): View? {
         binding = FragmentProfileBinding.inflate(inflater)
 
-        // just for testing, later write how we get current user id
-        val id: String = "5cfffe03-a42d-4042-b5f1-6d4fd5ac4dbaAlbatross"
+        viewModel.logId.observe(parent) {
 
-        registerObservers()
+            if (it == null) {
+                val intent = Intent(parent.applicationContext, SignInActivity::class.java)
+                startActivity(intent)
+            } else {
+                registerObservers()
 
-        registerListeners(id)
+                registerListeners(it)
 
-        renderInitial(id)
+                renderInitial(it)
+            }
+
+        }
 
         return binding?.root
     }
@@ -81,6 +88,12 @@ class ProfileFragment(private val parent: AppCompatActivity,
             binding?.nickname?.setText(it.nickname)
             binding?.profession?.setText(it.profession)
         }
+        viewModel.logId.observe(parent){
+            if (it == null) {
+                val intent = Intent(parent.applicationContext, SignInActivity::class.java)
+                startActivity(intent)
+            }
+        }
     }
 
     private fun registerListeners(id: String) {
@@ -103,7 +116,7 @@ class ProfileFragment(private val parent: AppCompatActivity,
         viewModel.get(id)
     }
 
-    private fun choosePhoto() {
+    fun choosePhoto() {
         if (ContextCompat.checkSelfPermission(
                 parent.applicationContext,
                 Manifest.permission.READ_EXTERNAL_STORAGE
@@ -119,23 +132,8 @@ class ProfileFragment(private val parent: AppCompatActivity,
         }
     }
 
-    // add this to parent activity
-
-    /* override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == READ_EXTERNAL_STORAGE_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                choosePhoto()
-            }
-        }
-    } */
-
     companion object {
-        private const val READ_EXTERNAL_STORAGE_CODE = 209
+        const val READ_EXTERNAL_STORAGE_CODE = 209
     }
 
 }

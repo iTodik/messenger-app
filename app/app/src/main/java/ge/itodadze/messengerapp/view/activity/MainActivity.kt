@@ -1,42 +1,52 @@
 package ge.itodadze.messengerapp.view.activity
 
-import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.navigation.NavigationBarView
 import ge.itodadze.messengerapp.R
 import ge.itodadze.messengerapp.databinding.ActivityMainBinding
-import ge.itodadze.messengerapp.databinding.ActivitySignInBinding
-import ge.itodadze.messengerapp.utils.PasswordHasher
 import ge.itodadze.messengerapp.view.adapter.ViewPagerAdapter
 import ge.itodadze.messengerapp.view.fragment.FrontPageFragment
+import ge.itodadze.messengerapp.view.fragment.ProfileFragment
 import ge.itodadze.messengerapp.viewmodel.FrontPageViewModel
+import ge.itodadze.messengerapp.viewmodel.ProfileViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
     private lateinit var viewPager: ViewPager2
+
+    private lateinit var fragment1: FrontPageFragment
+
+    private lateinit var fragment2: ProfileFragment
+
+    private val frontPageViewModel: FrontPageViewModel by viewModels {
+        FrontPageViewModel.getFrontPageViewModelFactory(applicationContext)
+    }
+
+    private val profileViewModel: ProfileViewModel by viewModels {
+        ProfileViewModel.getProfileViewModelFactory(applicationContext)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // will replace with profile fragment after merging
-
         registerObservers()
         registerListeners()
-        val fragment1 = FrontPageFragment(this, FrontPageViewModel())
-        val fragment2 = FrontPageFragment(this, FrontPageViewModel())
+        fragment1 = FrontPageFragment(this, frontPageViewModel)
+        fragment2 = ProfileFragment(this, profileViewModel)
         viewPager = binding.viewPager
         val adapter = ViewPagerAdapter(this, arrayListOf(fragment1, fragment2))
         viewPager.adapter = adapter
 
         registerObservers()
-        registerListeners()
 
+        registerListeners()
     }
 
     private fun registerObservers() {
@@ -56,4 +66,18 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == ProfileFragment.READ_EXTERNAL_STORAGE_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                fragment2.choosePhoto()
+            }
+        }
+    }
+
 }

@@ -7,27 +7,36 @@ import ge.itodadze.messengerapp.domain.repository.UsersFirebaseRepository
 import ge.itodadze.messengerapp.viewmodel.models.User
 import ge.itodadze.messengerapp.domain.repository.UsersRepository
 import ge.itodadze.messengerapp.viewmodel.callback.SignInCallbackHandler
-import ge.itodadze.messengerapp.viewmodel.listener.CallbackListener
+import ge.itodadze.messengerapp.viewmodel.listener.CallbackListenerWithResult
 import kotlinx.coroutines.launch
 
-class SignInViewModel(private val usersRepository: UsersRepository): ViewModel() {
+class SignInViewModel(private val logInManager: LogInManager,
+                      private val usersRepository: UsersRepository): ViewModel() {
 
     private val _failure = MutableLiveData<String>()
     val failure: LiveData<String>
         get() = _failure
 
-    private val _signedInNickname = MutableLiveData<String>()
-    val signedInNickname: LiveData<String>
-        get() = _signedInNickname
+    private val _signedInId = MutableLiveData<String>()
+    val signedInId: LiveData<String>
+        get() = _signedInId
+
+    init {
+        val isLogged: Boolean = logInManager.isCurrentlyLogged()
+        if (isLogged) {
+            _signedInId.value = logInManager.getLoggedUserId()
+        }
+    }
 
     fun trySignIn(nickname: String?, passwordHash: String?) {
         usersRepository.getByNickname(nickname,
             SignInCallbackHandler(
                 User(nickname=nickname, passwordHash=passwordHash),
-                object : CallbackListener {
-                    override fun onSuccess() {
+                object : CallbackListenerWithResult<User> {
+                    override fun onSuccess(result: User) {
+                        logInManager.logIn(result.identifier!!)
                         viewModelScope.launch{
-                            _signedInNickname.value = nickname
+                            _signedInId.value = result.identifier
                         }
                     }
 
@@ -51,6 +60,8 @@ class SignInViewModel(private val usersRepository: UsersRepository): ViewModel()
 @Suppress("UNCHECKED_CAST")
 class SignInViewModelFactory(private val context: Context): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return SignInViewModel(UsersFirebaseRepository(context.resources.getString(R.string.db_location))) as T
+        return SignInViewModel(
+            LogInManager(context.getSharedPreferences(LogInManager.FILE_NAME, Context.MODE_PRIVATE)),
+            UsersFirebaseRepository(context.resources.getString(R.string.db_location))) as T
     }
 }

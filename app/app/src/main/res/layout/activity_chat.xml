@@ -142,7 +142,7 @@
 
             <EditText
                 android:autofillHints=""
-                android:background="null"
+                android:background="@null"
                 android:hint="Message"
                 android:gravity="start"
                 android:id="@+id/input_text"
@@ -167,7 +167,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/chat_side_margin"
-            app:layout_constraintTop_toBottomOf="header"
             app:layout_constraintBottom_toTopOf="@+id/type_box"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
