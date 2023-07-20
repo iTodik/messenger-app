@@ -33,6 +33,7 @@ class SignUpActivity: AppCompatActivity() {
 
         viewModel.signedUpNickname.observe(this){
             // now we are signed up
+
         }
     }
 

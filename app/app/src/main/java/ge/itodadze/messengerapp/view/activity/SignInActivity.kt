@@ -34,7 +34,9 @@ class SignInActivity: AppCompatActivity() {
         }
 
         viewModel.signedInNickname.observe(this){
-            // now we are signed in
+            // add user to shared preference later
+            val intent = Intent(applicationContext, MainActivity::class.java)
+            startActivity(intent)
         }
     }
 
