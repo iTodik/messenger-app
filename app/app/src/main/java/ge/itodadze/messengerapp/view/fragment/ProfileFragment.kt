@@ -29,6 +29,17 @@ class ProfileFragment(private val parent: AppCompatActivity,
 
     private var binding: FragmentProfileBinding? = null
 
+    private val galleryLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK && result.data != null) {
+            val imgUri = result.data?.data
+            binding?.avatar?.scaleType = ImageView.ScaleType.CENTER_CROP
+            binding?.avatar?.let {
+                Glide.with(parent).load(imgUri)
+                    .apply(RequestOptions.circleCropTransform()).into(it)
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -59,18 +70,6 @@ class ProfileFragment(private val parent: AppCompatActivity,
         binding = null
     }
 
-    private val galleryLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK && result.data != null) {
-            val imgUri = result.data?.data
-            Toast.makeText(context, imgUri.toString(), Toast.LENGTH_SHORT).show()
-            binding?.avatar?.scaleType = ImageView.ScaleType.CENTER_CROP
-            binding?.avatar?.let {
-                Glide.with(parent).load(imgUri)
-                    .apply(RequestOptions.circleCropTransform()).into(it)
-            }
-        }
-    }
-
     private fun registerObservers() {
         viewModel.failure.observe(parent){
             if (it != null) Toast.makeText(parent.applicationContext, it, Toast.LENGTH_SHORT).show()
@@ -82,6 +81,7 @@ class ProfileFragment(private val parent: AppCompatActivity,
                 binding?.avatar?.let { it1 ->
                     Glide.with(parent)
                         .load(it.imgUri)
+                        .apply(RequestOptions.circleCropTransform())
                         .into(it1)
                 }
             }

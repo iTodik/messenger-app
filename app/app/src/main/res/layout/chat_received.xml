@@ -11,7 +11,7 @@
         android:layout_marginTop="0dp"
         android:layout_marginBottom="0dp"
         android:layout_marginEnd="@dimen/chat_side_margin"
-        android:text="12:00"
+        android:text="@string/default_time"
         android:textColor="@color/text_grey"
         android:textSize="@dimen/chat_small_text"
         app:layout_constraintTop_toTopOf="parent"
@@ -45,7 +45,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/message_box"
             app:layout_constraintStart_toStartOf="@+id/message_box"
             app:layout_constraintEnd_toEndOf="@+id/message_box"
-            android:text="Castle Is the biggest kind of mistake the gurl has ever made like what is going ooon"
+            android:text="@string/default_message"
             android:textColor="@color/text_dark_grey"
             android:textSize="@dimen/chat_small_text"
             android:gravity="start" />

@@ -12,6 +12,8 @@
     <color name="messenger_primary">#4377EF</color>
     <color name="messenger_secondary">#FFFFFF</color>
     <color name="messenger_tertiary">#E1EBF2</color>
+    <color name="messenger_quaternary">#43C7EF</color>
+    <color name="messenger_quinary">#E6E6E6</color>
     <color name="text_black">#000000</color>
     <color name="text_dark_grey">#1E1E1E</color>
     <color name="text_grey">#545454</color>

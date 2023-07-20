@@ -14,7 +14,7 @@
         <dimen name="profile_text_box_radius">22dp</dimen>
         <dimen name="profile_text_box_vertical_margin">12dp</dimen>
         <!-- button -->
-        <dimen name="profile_button_width">100dp</dimen>
+        <dimen name="profile_button_width">120dp</dimen>
         <dimen name="profile_button_height">35dp</dimen>
         <dimen name="profile_button_radius">5dp</dimen>
         <dimen name="profile_button_vertical_margin">24dp</dimen>
@@ -23,6 +23,8 @@
     <dimen name="home_large_text">22sp</dimen>
     <dimen name="home_small_text">16sp</dimen>
     <dimen name="home_side_margin">16dp</dimen>
+        <!-- toolbar -->
+        <dimen name="home_toolbar_height">200dp</dimen>
         <!-- list item -->
         <dimen name="home_profile_picture_width">25dp</dimen>
         <dimen name="home_list_item_height">80dp</dimen>
@@ -32,6 +34,10 @@
         <!-- search bar -->
         <dimen name="home_search_height">50dp</dimen>
         <dimen name="home_search_radius">25dp</dimen>
+        <!-- bottom navigation panel -->
+        <dimen name="fab_cradle_margin">5dp</dimen>
+        <dimen name="fab_corner_radius">10dp</dimen>
+        <dimen name="fab_vertical_offset">2dp</dimen>
 
     <!-- SEARCH PAGE -->
     <!-- we use same text dimensions and side margin as in home page -->
@@ -49,13 +55,22 @@
     <dimen name="chat_big_text">24sp</dimen>
     <dimen name="chat_medium_text">20sp</dimen>
     <dimen name="chat_small_text">14sp</dimen>
+        <!-- toolbar -->
+        <dimen name="chat_toolbar_height">100dp</dimen>
+        <dimen name="chat_toolbar_texts_height">60dp</dimen>
         <!-- chat item -->
         <dimen name="chat_space_around_text">16dp</dimen>
         <dimen name="chat_same_person_vertical_margin">8dp</dimen>
         <dimen name="chat_different_person_vertical_margin">16dp</dimen>
         <!-- message box -->
+        <dimen name="chat_message_box_inner_margin">24dp</dimen>
         <dimen name="chat_message_height">60dp</dimen>
         <dimen name="chat_message_radius">28dp</dimen>
+        <dimen name="chat_send_button_radius">12dp</dimen>
+        <dimen name="chat_send_button_diameter">24dp</dimen>
+        <!-- avatar -->
+        <dimen name="chat_avatar_border_width">4dp</dimen>
+        <dimen name="chat_avatar_diameter">60dp</dimen>
 
     <!-- SIGNING PAGES -->
     <dimen name="sign_small_text">20sp</dimen>

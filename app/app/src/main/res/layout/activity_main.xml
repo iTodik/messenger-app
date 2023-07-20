@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activity.MainActivity">
+    tools:context=".view.activity.MainActivity"
+    android:background="@color/messenger_secondary">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
@@ -17,9 +18,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:fabCradleMargin="5dp"
-        app:fabCradleRoundedCornerRadius="10dp"
-        app:fabCradleVerticalOffset="2dp"
+        app:fabCradleMargin="@dimen/fab_cradle_margin"
+        app:fabCradleRoundedCornerRadius="@dimen/fab_corner_radius"
+        app:fabCradleVerticalOffset="@dimen/fab_vertical_offset"
         app:hideOnScroll="true"
         >
 
@@ -27,7 +28,7 @@
             android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="@dimen/home_side_margin"
             app:elevation="0dp"
             android:background="@android:color/transparent"
             app:labelVisibilityMode="unlabeled"
@@ -36,6 +37,7 @@
     </com.google.android.material.bottomappbar.BottomAppBar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:background="@color/messenger_primary"
         android:id="@+id/floating_action_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,7 +45,7 @@
         app:backgroundTint="@color/messenger_primary"
         app:tint="@color/white"
         app:srcCompat="@drawable/baseline_add_24"
-        android:contentDescription="fab_desc" />
+        android:contentDescription="@string/fab_desc" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -11,4 +11,19 @@
     <string name="sign_up">SIGN UP</string>
     <string name="registration_question_text">Not registered?</string>
     <string name="profession_hint">What I do</string>
+
+    <!-- chat strings -->
+    <string name="back_button_desc">Return to main page</string>
+    <string name="chat_nickname_placeholder">Nickname</string>
+    <string name="chat_profession_placeholder">Profession</string>
+    <string name="chat_avatar_desc">Avatar</string>
+    <string name="chat_send_text_button_desc">Send message</string>
+    <string name="chat_hint">Enter message</string>
+    <string name="default_time">12:00</string>
+    <string name="default_message">Message</string>
+
+    <!-- main strings -->
+    <string name="fab_desc">Fab</string>
+    <string name="update">Update</string>
+    <string name="sign_out">SIGN OUT</string>
 </resources>

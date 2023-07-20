@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activity.ChatActivity">
+    tools:context=".view.activity.ChatActivity"
+    android:background="@color/messenger_secondary">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/header"
@@ -26,7 +27,7 @@
                 android:layout_marginStart="@dimen/chat_side_margin"
                 android:layout_marginTop="@dimen/chat_side_margin"
                 android:layout_marginBottom="@dimen/chat_side_margin"
-                android:contentDescription="Back Button"
+                android:contentDescription="@string/back_button_desc"
                 android:src="@drawable/arrow_back"
                 app:layout_collapseMode="pin"
                 app:tint="@color/messenger_secondary" />
@@ -34,7 +35,7 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="@dimen/chat_toolbar_height"
                 android:layout_gravity="bottom"
                 app:layout_collapseMode="pin">
 
@@ -52,7 +53,7 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_weight="1"
-                            android:layout_height="60dp"
+                            android:layout_height="@dimen/chat_toolbar_texts_height"
                             android:fitsSystemWindows="true"
                             android:gravity="center_vertical"
                             android:orientation="vertical"
@@ -65,7 +66,7 @@
                                 android:id="@+id/nickname"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Nickname"
+                                android:text="@string/chat_nickname_placeholder"
                                 android:textColor="@color/text_white"
                                 android:textStyle="bold"
                                 android:ellipsize="end"
@@ -78,7 +79,7 @@
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:text="Profession"
+                                android:text="@string/chat_profession_placeholder"
                                 android:textColor="@color/text_white"
                                 android:textSize="@dimen/chat_small_text" />
 
@@ -86,10 +87,10 @@
 
                         <ImageView
                             android:id="@+id/avatar"
-                            android:contentDescription="Avatar Photo"
+                            android:contentDescription="@string/chat_avatar_desc"
                             android:layout_marginTop="@dimen/chat_side_margin"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
+                            android:layout_width="@dimen/chat_avatar_diameter"
+                            android:layout_height="@dimen/chat_avatar_diameter"
                             android:gravity="end"
                             android:layout_marginEnd="@dimen/chat_side_margin"
                             android:scaleType="centerCrop"
@@ -128,13 +129,13 @@
 
             <ImageView
                 android:background="@drawable/send_text_button"
-                android:contentDescription="Button to send text"
+                android:contentDescription="@string/chat_send_text_button_desc"
                 android:id="@+id/send_text"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="24dp"
-                android:layout_marginEnd="24dp"
+                android:layout_width="@dimen/chat_send_button_diameter"
+                android:layout_height="@dimen/chat_send_button_diameter"
+                android:layout_marginTop="@dimen/chat_message_box_inner_margin"
+                android:layout_marginBottom="@dimen/chat_message_box_inner_margin"
+                android:layout_marginEnd="@dimen/chat_message_box_inner_margin"
                 app:layout_constraintTop_toTopOf="@+id/type_box"
                 app:layout_constraintBottom_toBottomOf="@+id/type_box"
                 app:layout_constraintEnd_toEndOf="@+id/type_box"
@@ -143,16 +144,16 @@
             <EditText
                 android:autofillHints=""
                 android:background="@null"
-                android:hint="Message"
+                android:hint="@string/chat_hint"
                 android:gravity="start"
                 android:id="@+id/input_text"
                 android:inputType="text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="24dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginTop="@dimen/chat_message_box_inner_margin"
+                android:layout_marginBottom="@dimen/chat_message_box_inner_margin"
+                android:layout_marginStart="@dimen/chat_message_box_inner_margin"
+                android:layout_marginEnd="@dimen/chat_message_box_inner_margin"
                 android:textColor="@color/text_grey"
                 app:layout_constraintTop_toTopOf="@+id/type_box"
                 app:layout_constraintBottom_toBottomOf="@+id/type_box"
