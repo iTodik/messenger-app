@@ -36,8 +36,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        registerObservers()
-        registerListeners()
         fragment1 = FrontPageFragment(this, frontPageViewModel)
         fragment2 = ProfileFragment(this, profileViewModel)
         viewPager = binding.viewPager
