@@ -35,11 +35,27 @@ class FrontPageFragment(private val parent: AppCompatActivity,
                 val intent = Intent(parent.applicationContext, SignInActivity::class.java)
                 startActivity(intent)
             } else {
-                // front page stuff
+                registerObservers()
+
+                registerListeners(it)
+
+                renderInitial(it)
             }
         }
 
         return binding?.root
+    }
+
+    private fun renderInitial(id: String) {
+
+    }
+
+    private fun registerListeners(id: String) {
+
+    }
+
+    private fun registerObservers() {
+
     }
 
 }
