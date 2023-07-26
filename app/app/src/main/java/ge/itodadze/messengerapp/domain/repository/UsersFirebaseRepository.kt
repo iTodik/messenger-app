@@ -1,7 +1,10 @@
 package ge.itodadze.messengerapp.domain.repository
 
 import android.graphics.Bitmap
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -10,6 +13,7 @@ import ge.itodadze.messengerapp.viewmodel.models.User
 import ge.itodadze.messengerapp.viewmodel.callback.CallbackHandler
 import java.io.ByteArrayOutputStream
 import java.util.*
+import kotlin.collections.ArrayList
 
 class UsersFirebaseRepository(dbUrl: String): UsersRepository {
 
@@ -58,6 +62,21 @@ class UsersFirebaseRepository(dbUrl: String): UsersRepository {
         }
     }
 
+    override fun getAll(handler: CallbackHandler<List<User>>?) {
+        users.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val allUsers: ArrayList<User> = ArrayList()
+                for (childSnapshot in dataSnapshot.children) {
+                    childSnapshot.getValue(User::class.java)?.let { allUsers.add(it) }
+                }
+                handler?.onResult(allUsers)
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                handler?.onResultEmpty(databaseError.toException().message)
+            }
+        })
+    }
+
     override fun add(user: User?, handler: CallbackHandler<User>?) {
         if (user == null) {
             handler?.onResultEmpty("User not provided.")
@@ -98,6 +117,9 @@ class UsersFirebaseRepository(dbUrl: String): UsersRepository {
                 img.compress(Bitmap.CompressFormat.JPEG, 100, os)
                 val bytes: ByteArray = os.toByteArray()
                 images.child(id).child(IMG_ID).putBytes(bytes).addOnSuccessListener {
+                    images.child(id).child(IMG_ID).downloadUrl.addOnSuccessListener { uri ->
+                        users.child(id).child(IMAGE).setValue(uri)
+                    }
                     handler?.onResult(null)
                 }.addOnFailureListener {
                     handler?.onResultEmpty("Failed to upload image to storage.")
@@ -109,6 +131,7 @@ class UsersFirebaseRepository(dbUrl: String): UsersRepository {
     companion object {
         private const val NICKNAME: String = "nickname"
         private const val PROFESSION: String = "profession"
+        private const val IMAGE: String = "imgUri"
         private const val IMG_ID: String = "image.jpeg"
     }
 

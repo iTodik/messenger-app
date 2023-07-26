@@ -7,6 +7,7 @@ import ge.itodadze.messengerapp.viewmodel.callback.CallbackHandler
 interface UsersRepository {
     fun get(id: String?, handler: CallbackHandler<User>?)
     fun getByNickname(nickname: String?, handler: CallbackHandler<User>?)
+    fun getAll(handler: CallbackHandler<List<User>>?)
     fun add(user: User?, handler: CallbackHandler<User>?)
     fun update(id: String?, nickname: String?, profession: String?, img: Bitmap?, handler: CallbackHandler<User>?)
 }
