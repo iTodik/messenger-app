@@ -1,7 +1,10 @@
 package ge.itodadze.messengerapp.domain.repository
 
 import android.graphics.Bitmap
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -10,6 +13,7 @@ import ge.itodadze.messengerapp.viewmodel.models.User
 import ge.itodadze.messengerapp.viewmodel.callback.CallbackHandler
 import java.io.ByteArrayOutputStream
 import java.util.*
+import kotlin.collections.ArrayList
 
 class UsersFirebaseRepository(dbUrl: String): UsersRepository {
 
@@ -30,9 +34,9 @@ class UsersFirebaseRepository(dbUrl: String): UsersRepository {
             return
         }
         users.child(id).get().addOnSuccessListener {
-            val user: User? = it.getValue(User::class.java)
+            var user: User? = it.getValue(User::class.java)
             images.child(id).child(IMG_ID).downloadUrl.addOnSuccessListener { uri ->
-                user?.imgUri = uri
+                user = user?.withImg(uri.toString())
                 handler?.onResult(user)
             }.addOnFailureListener {
                 handler?.onResult(user)
@@ -56,6 +60,22 @@ class UsersFirebaseRepository(dbUrl: String): UsersRepository {
         }.addOnFailureListener {
             handler?.onResultEmpty("Request failed.")
         }
+    }
+
+    override fun getAll(handler: CallbackHandler<List<User>>?) {
+        users.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val allUsers: ArrayList<User> = ArrayList()
+                for (childSnapshot in dataSnapshot.children) {
+                    childSnapshot.getValue(User::class.java)?.let {
+                        allUsers.add(it) }
+                }
+                handler?.onResult(allUsers)
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                handler?.onResultEmpty(databaseError.toException().message)
+            }
+        })
     }
 
     override fun add(user: User?, handler: CallbackHandler<User>?) {
@@ -97,8 +117,13 @@ class UsersFirebaseRepository(dbUrl: String): UsersRepository {
                 val os = ByteArrayOutputStream()
                 img.compress(Bitmap.CompressFormat.JPEG, 100, os)
                 val bytes: ByteArray = os.toByteArray()
-                images.child(id).child(IMG_ID).putBytes(bytes).addOnSuccessListener {
-                    handler?.onResult(null)
+                images.child(id).child(IMG_ID).putBytes(bytes).addOnSuccessListener { taskSnapshot
+                    -> taskSnapshot.storage.downloadUrl.addOnSuccessListener { downloadUri ->
+                        users.child(id).child(IMAGE).setValue(downloadUri.toString())
+                        handler?.onResult(null)
+                    }.addOnFailureListener {
+                        handler?.onResultEmpty("Failed to save image uri.")
+                    }
                 }.addOnFailureListener {
                     handler?.onResultEmpty("Failed to upload image to storage.")
                 }
@@ -109,6 +134,7 @@ class UsersFirebaseRepository(dbUrl: String): UsersRepository {
     companion object {
         private const val NICKNAME: String = "nickname"
         private const val PROFESSION: String = "profession"
+        private const val IMAGE: String = "imgUri"
         private const val IMG_ID: String = "image.jpeg"
     }
 

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/messenger_secondary">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".view.activity.SearchActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@color/messenger_primary"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/search_toolbar_height"
+            android:layout_marginTop="0dp"
+            android:layout_marginStart="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:id="@+id/back"
+                android:contentDescription="@string/search_back_desc"
+                android:layout_width="@dimen/search_back_button_width"
+                android:layout_height="@dimen/search_back_button_width"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginStart="@dimen/home_side_margin"
+                android:src="@drawable/arrow_back"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:tint="@color/white"
+                />
+
+            <EditText
+                android:autofillHints="name"
+                android:background="@drawable/search_rect"
+                android:drawableStart="@drawable/search"
+                android:drawablePadding="@dimen/search_icon_padding"
+                android:drawableTint="@color/text_dark_grey"
+                android:drawableTintMode="src_in"
+                android:hint="@string/search_hint"
+                android:id="@+id/search_text"
+                android:inputType="text"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/search_box_height"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginStart="@dimen/search_toolbar_inner_vertical_margin"
+                android:layout_marginEnd="@dimen/home_side_margin"
+                android:paddingStart="@dimen/home_side_margin"
+                android:paddingEnd="@dimen/home_side_margin"
+                android:textColor="@color/text_dark_grey"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/back"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/users"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginStart="@dimen/home_side_margin"
+            android:layout_marginEnd="@dimen/home_side_margin"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

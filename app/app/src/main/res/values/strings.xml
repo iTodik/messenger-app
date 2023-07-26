@@ -26,4 +26,12 @@
     <string name="fab_desc">Fab</string>
     <string name="update">Update</string>
     <string name="sign_out">SIGN OUT</string>
+
+    <!-- search strings -->
+    <string name="avatar_desc">Avatar photo</string>
+    <string name="search_nickname_placeholder">Nickname</string>
+    <string name="search_profession_placeholder">Profession</string>
+    <string name="search_back_desc">Return to home page</string>
+    <string name="search_hint">Search</string>
+
 </resources>
