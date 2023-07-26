@@ -34,9 +34,9 @@ class UsersFirebaseRepository(dbUrl: String): UsersRepository {
             return
         }
         users.child(id).get().addOnSuccessListener {
-            val user: User? = it.getValue(User::class.java)
+            var user: User? = it.getValue(User::class.java)
             images.child(id).child(IMG_ID).downloadUrl.addOnSuccessListener { uri ->
-                user?.imgUri = uri
+                user = user?.withImg(uri.toString())
                 handler?.onResult(user)
             }.addOnFailureListener {
                 handler?.onResult(user)
@@ -67,7 +67,8 @@ class UsersFirebaseRepository(dbUrl: String): UsersRepository {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val allUsers: ArrayList<User> = ArrayList()
                 for (childSnapshot in dataSnapshot.children) {
-                    childSnapshot.getValue(User::class.java)?.let { allUsers.add(it) }
+                    childSnapshot.getValue(User::class.java)?.let {
+                        allUsers.add(it) }
                 }
                 handler?.onResult(allUsers)
             }
@@ -116,11 +117,13 @@ class UsersFirebaseRepository(dbUrl: String): UsersRepository {
                 val os = ByteArrayOutputStream()
                 img.compress(Bitmap.CompressFormat.JPEG, 100, os)
                 val bytes: ByteArray = os.toByteArray()
-                images.child(id).child(IMG_ID).putBytes(bytes).addOnSuccessListener {
-                    images.child(id).child(IMG_ID).downloadUrl.addOnSuccessListener { uri ->
-                        users.child(id).child(IMAGE).setValue(uri)
+                images.child(id).child(IMG_ID).putBytes(bytes).addOnSuccessListener { taskSnapshot
+                    -> taskSnapshot.storage.downloadUrl.addOnSuccessListener { downloadUri ->
+                        users.child(id).child(IMAGE).setValue(downloadUri.toString())
+                        handler?.onResult(null)
+                    }.addOnFailureListener {
+                        handler?.onResultEmpty("Failed to save image uri.")
                     }
-                    handler?.onResult(null)
                 }.addOnFailureListener {
                     handler?.onResultEmpty("Failed to upload image to storage.")
                 }

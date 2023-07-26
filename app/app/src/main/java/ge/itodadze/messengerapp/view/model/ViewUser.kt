@@ -1,9 +1,8 @@
 package ge.itodadze.messengerapp.view.model
 
-import android.net.Uri
 import ge.itodadze.messengerapp.viewmodel.models.User
 
-data class ViewUser(val nickname: String?, val profession: String?, val imgUri: Uri?) {
+data class ViewUser(val nickname: String?, val profession: String?, val imgUri: String?) {
 
     companion object {
         fun fromUser(user: User): ViewUser {

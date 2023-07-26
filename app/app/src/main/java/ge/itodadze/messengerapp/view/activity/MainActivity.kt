@@ -1,5 +1,6 @@
 package ge.itodadze.messengerapp.view.activity
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -61,6 +62,11 @@ class MainActivity : AppCompatActivity() {
                viewPager.currentItem = 1
            }
            true
+        }
+
+        binding.floatingActionButton.setOnClickListener{
+            val intent = Intent(applicationContext, SearchActivity::class.java)
+            startActivity(intent)
         }
 
     }
