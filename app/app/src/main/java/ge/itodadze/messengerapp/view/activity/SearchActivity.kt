@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -37,14 +38,17 @@ class SearchActivity: AppCompatActivity() {
     private fun registerAdapters() {
         binding.users.adapter = SearchUsersAdapter(this, emptyList())
         binding.users.layoutManager = LinearLayoutManager(this)
+        startSearch("")
     }
 
     private fun registerObservers() {
         viewModel.failure.observe(this){
             if (it != null) Toast.makeText(applicationContext, it, Toast.LENGTH_SHORT).show()
+            endSearch()
         }
         viewModel.users.observe(this){
             (binding.users.adapter as SearchUsersAdapter).update(it)
+            endSearch()
         }
     }
 
@@ -63,7 +67,7 @@ class SearchActivity: AppCompatActivity() {
                     override fun onFinish() {
                         val userInput = p0.toString()
                         if (userInput.isEmpty() || userInput.length >= SEARCH_MIN_CHAR) {
-                            viewModel.searchUsers(userInput)
+                            startSearch(userInput)
                         }
                     }
                 }.start()
@@ -72,6 +76,17 @@ class SearchActivity: AppCompatActivity() {
         binding.back.setOnClickListener{
             finish()
         }
+    }
+
+    private fun startSearch(input: String) {
+        binding.loader.visibility = View.VISIBLE
+        binding.users.visibility = View.GONE
+        viewModel.searchUsers(input)
+    }
+
+    private fun endSearch() {
+        binding.loader.visibility = View.GONE
+        binding.users.visibility = View.VISIBLE
     }
 
     companion object {
