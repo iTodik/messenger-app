@@ -69,6 +69,8 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.bottomNavigation.hideOnScroll = true
+
     }
 
     override fun onRequestPermissionsResult(
