@@ -49,39 +49,6 @@ class FrontPageViewModel(private val logInManager: LogInManager,
     }
 
     fun getLastChats(user_id:String?){
-        chatsRepository.getUsersLastChats(user_id, GetLastChatsCallbackHandler(
-            object: CallbackListenerWithResult<List<Chat>>{
-                override fun onSuccess(result: List<Chat>) {
-                    val list:MutableList<ViewChat> = arrayListOf()
-                    for (elem in result){
-                        var userView: ViewUser? = null
-                        usersRepository.get(user_id, GetUserCallbackHandler(
-                            object : CallbackListenerWithResult<User>{
-                                override fun onSuccess(resultUser: User) {
-                                    userView = ViewUser(resultUser.nickname, resultUser.profession, resultUser.imgUri)
-                                }
-
-                                override fun onFailure(message: String?) {
-                                    viewModelScope.launch{
-                                        _failure.value = message
-                                    }
-                                }
-                            }
-                        ))
-                        list.add(ViewChat(userView, elem.messages?.get(elem.messages.size-1)))
-
-                    }
-
-                    _lastChats.value = list
-                }
-
-                override fun onFailure(message: String?) {
-                    viewModelScope.launch{
-                        _failure.value = message
-                    }
-                }
-            }
-        ))
 
     }
 

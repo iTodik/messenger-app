@@ -1,3 +1,15 @@
 package ge.itodadze.messengerapp.viewmodel.models
 
-data class Chat(val sender_id: String?=null, val receiver_id: String?=null, val messages: List<List<String>>?=null) {}
+import com.google.firebase.database.IgnoreExtraProperties
+
+@IgnoreExtraProperties
+data class Chat(val messages: MutableList<Message>? = null,
+                val identifier: String? = null) {
+
+    fun withIdAndMessages(identifier: String): Chat {
+        if(messages == null){
+            return Chat(mutableListOf(), identifier)
+        }
+        return Chat(messages, identifier)
+    }
+}
