@@ -116,7 +116,7 @@ class ChatViewModel(private val logInManager: LogInManager,
         usersRepository.get(partner, GetUserCallbackHandler(object : CallbackListenerWithResult<User> {
             override fun onSuccess(result: User) {
                 viewModelScope.launch{
-                    // add view user retrieval
+                    _partner.value = ViewUser.fromUser(result)
                 }
             }
             override fun onFailure(message: String?) {

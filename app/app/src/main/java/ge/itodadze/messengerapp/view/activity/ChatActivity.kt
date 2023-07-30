@@ -7,6 +7,8 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import ge.itodadze.messengerapp.databinding.ActivityChatBinding
 import ge.itodadze.messengerapp.view.adapter.ChatAdapter
 import ge.itodadze.messengerapp.viewmodel.ChatViewModel
@@ -72,7 +74,10 @@ class ChatActivity : AppCompatActivity() {
         }
 
         viewModel.partner.observe(this){
-            // toolbar
+            binding.nickname.text = it.nickname
+            binding.profession.text = it.profession
+            Glide.with(applicationContext).load(it.imgUri)
+                .apply(RequestOptions.circleCropTransform()).into(binding.avatar)
         }
     }
 
