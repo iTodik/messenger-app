@@ -3,17 +3,22 @@ package ge.itodadze.messengerapp.viewmodel
 import android.content.Context
 
 import androidx.lifecycle.*
+import com.google.firebase.database.ValueEventListener
 import ge.itodadze.messengerapp.R
 import ge.itodadze.messengerapp.domain.repository.ChatsFirebaseRepository
 import ge.itodadze.messengerapp.domain.repository.ChatsRepository
 import ge.itodadze.messengerapp.domain.repository.UsersFirebaseRepository
 import ge.itodadze.messengerapp.domain.repository.UsersRepository
+import ge.itodadze.messengerapp.viewmodel.callback.AddMessageCallbackHandler
+import ge.itodadze.messengerapp.viewmodel.callback.ChatEventCallbackHandler
 
 import ge.itodadze.messengerapp.viewmodel.callback.GetChatCallbackHandler
+import ge.itodadze.messengerapp.viewmodel.listener.CallbackListener
 import ge.itodadze.messengerapp.viewmodel.listener.CallbackListenerWithResult
 import ge.itodadze.messengerapp.viewmodel.models.Chat
 import ge.itodadze.messengerapp.viewmodel.models.Message
 import kotlinx.coroutines.launch
+import java.util.*
 
 class ChatViewModel(private val logInManager: LogInManager,
                     private val usersRepository: UsersRepository,
@@ -32,6 +37,7 @@ class ChatViewModel(private val logInManager: LogInManager,
     val failure: LiveData<String>
         get() = _failure
 
+    private var eventListener: ValueEventListener? = null
 
 
     init {
@@ -66,7 +72,38 @@ class ChatViewModel(private val logInManager: LogInManager,
         ))
     }
 
+    fun listenChat(chat_id: String) {
+        eventListener = chatsRepository.listenToChat(chat_id,
+            ChatEventCallbackHandler(object : CallbackListenerWithResult<Chat>{
+            override fun onSuccess(result: Chat) {
+                _messages.value = result.messages
+            }
 
+            override fun onFailure(message: String?) {
+                viewModelScope.launch{
+                    _failure.value = message
+                }
+            }
+        }))
+    }
+
+    fun stopListenChat(chat_id: String) {
+        chatsRepository.stopListenToChat(chat_id, eventListener, null)
+    }
+
+    fun sendText(chat_id: String, text: String?, sender: String?, receiver: String?) {
+        chatsRepository.addMessage(chat_id,
+            Message(chat_id, text, sender, receiver, Date(System.currentTimeMillis())),
+            AddMessageCallbackHandler(object: CallbackListener{
+                override fun onSuccess() {
+                }
+                override fun onFailure(message: String?) {
+                    viewModelScope.launch{
+                        _failure.value = message
+                    }
+                }
+            }))
+    }
 
     companion object {
         fun getChatViewModelFactory(context: Context): ChatViewModelFactory {

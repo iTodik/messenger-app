@@ -1,8 +1,11 @@
 package ge.itodadze.messengerapp.domain.repository
 
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.GenericTypeIndicator
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import ge.itodadze.messengerapp.view.model.ViewChat
 import ge.itodadze.messengerapp.view.model.ViewUser
@@ -116,6 +119,41 @@ class ChatsFirebaseRepository(dbUrl: String):ChatsRepository {
         }
     }
 
+    override fun listenToChat(chat_id: String?, handler: CallbackHandler<Chat>?): ValueEventListener? {
+        if(chat_id==null){
+            handler?.onResultEmpty("id not provided")
+            return null
+        }
+
+        val valueEventListener: ValueEventListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val messages: MutableList<Message>? = snapshot
+                    .getValue(object : GenericTypeIndicator<MutableList<Message>>() {})
+                handler?.onResult(Chat(messages, chat_id))
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                handler?.onResultEmpty(error.message)
+            }
+        }
+
+        chats.child(chat_id).child(MESSAGES).addValueEventListener(valueEventListener)
+
+        return valueEventListener
+    }
+
+    override fun stopListenToChat(chat_id: String?, valueEventListener: ValueEventListener?,
+                                  handler: CallbackHandler<Chat>?) {
+        if(chat_id==null){
+            handler?.onResultEmpty("id not provided")
+        } else if (valueEventListener == null) {
+            handler?.onResultEmpty("event listener not provided")
+        } else {
+            chats.child(chat_id).child(MESSAGES).removeEventListener(valueEventListener)
+            handler?.onResult(null)
+        }
+    }
+
     private fun addChatToUser(user_id: String, chat_id: String){
 
         usersChats.child(user_id).get().addOnSuccessListener{
@@ -128,7 +166,9 @@ class ChatsFirebaseRepository(dbUrl: String):ChatsRepository {
         }
     }
 
-
+    companion object {
+        private const val MESSAGES: String = "messages"
+    }
 
 
 }
