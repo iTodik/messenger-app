@@ -1,5 +1,6 @@
 package ge.itodadze.messengerapp.view.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
@@ -10,10 +11,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import ge.itodadze.messengerapp.databinding.ActivitySearchBinding
+import ge.itodadze.messengerapp.view.adapter.SearchListener
 import ge.itodadze.messengerapp.view.adapter.SearchUsersAdapter
+import ge.itodadze.messengerapp.view.model.ViewUser
 import ge.itodadze.messengerapp.viewmodel.SearchViewModel
 
-class SearchActivity: AppCompatActivity() {
+class SearchActivity: AppCompatActivity(), SearchListener {
 
     private val viewModel: SearchViewModel by viewModels {
         SearchViewModel.getSearchViewModelFactory(this)
@@ -36,7 +39,7 @@ class SearchActivity: AppCompatActivity() {
     }
 
     private fun registerAdapters() {
-        binding.users.adapter = SearchUsersAdapter(this, emptyList())
+        binding.users.adapter = SearchUsersAdapter(this, emptyList(), this)
         binding.users.layoutManager = LinearLayoutManager(this)
         startSearch("")
     }
@@ -49,6 +52,12 @@ class SearchActivity: AppCompatActivity() {
         viewModel.users.observe(this){
             (binding.users.adapter as SearchUsersAdapter).update(it)
             endSearch()
+        }
+        viewModel.chatOpened.observe(this){
+            val intent = Intent(applicationContext, ChatActivity::class.java)
+            intent.putExtra(ChatActivity.CHAT_ID, it.first)
+            intent.putExtra(ChatActivity.PARTNER, it.second)
+            startActivity(intent)
         }
     }
 
@@ -92,6 +101,10 @@ class SearchActivity: AppCompatActivity() {
     companion object {
         const val STOPPED_TYPING_TIME: Long = 1500L
         const val SEARCH_MIN_CHAR: Int = 3
+    }
+
+    override fun userClicked(user: ViewUser) {
+        viewModel.openChatWith(user)
     }
 
 }

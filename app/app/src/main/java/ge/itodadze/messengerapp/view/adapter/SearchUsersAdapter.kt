@@ -11,7 +11,8 @@ import ge.itodadze.messengerapp.R
 import ge.itodadze.messengerapp.databinding.SearchUserBinding
 import ge.itodadze.messengerapp.view.model.ViewUser
 
-class SearchUsersAdapter(private val context: Context, private var userList: List<ViewUser>):
+class SearchUsersAdapter(private val context: Context, private var userList: List<ViewUser>,
+                         private val listener: SearchListener):
     RecyclerView.Adapter<SearchUserViewHolder>(){
 
     private lateinit var binding: SearchUserBinding
@@ -35,6 +36,9 @@ class SearchUsersAdapter(private val context: Context, private var userList: Lis
         }
         holder.nickname.text = userList[position].nickname
         holder.profession.text = userList[position].profession
+        holder.itemView.setOnClickListener{
+            listener.userClicked(userList[position])
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
