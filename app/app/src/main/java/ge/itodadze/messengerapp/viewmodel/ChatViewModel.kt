@@ -9,14 +9,17 @@ import ge.itodadze.messengerapp.domain.repository.ChatsFirebaseRepository
 import ge.itodadze.messengerapp.domain.repository.ChatsRepository
 import ge.itodadze.messengerapp.domain.repository.UsersFirebaseRepository
 import ge.itodadze.messengerapp.domain.repository.UsersRepository
+import ge.itodadze.messengerapp.view.model.ViewUser
 import ge.itodadze.messengerapp.viewmodel.callback.AddMessageCallbackHandler
 import ge.itodadze.messengerapp.viewmodel.callback.ChatEventCallbackHandler
 
 import ge.itodadze.messengerapp.viewmodel.callback.GetChatCallbackHandler
+import ge.itodadze.messengerapp.viewmodel.callback.GetUserCallbackHandler
 import ge.itodadze.messengerapp.viewmodel.listener.CallbackListener
 import ge.itodadze.messengerapp.viewmodel.listener.CallbackListenerWithResult
 import ge.itodadze.messengerapp.viewmodel.models.Chat
 import ge.itodadze.messengerapp.viewmodel.models.Message
+import ge.itodadze.messengerapp.viewmodel.models.User
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -36,6 +39,10 @@ class ChatViewModel(private val logInManager: LogInManager,
     private val _failure = MutableLiveData<String>()
     val failure: LiveData<String>
         get() = _failure
+
+    private val _partner = MutableLiveData<ViewUser>()
+    val partner: LiveData<ViewUser>
+        get() = _partner
 
     private var eventListener: ValueEventListener? = null
 
@@ -103,6 +110,21 @@ class ChatViewModel(private val logInManager: LogInManager,
                     }
                 }
             }))
+    }
+
+    fun getConversationPartner(partner: String) {
+        usersRepository.get(partner, GetUserCallbackHandler(object : CallbackListenerWithResult<User> {
+            override fun onSuccess(result: User) {
+                viewModelScope.launch{
+                    // add view user retrieval
+                }
+            }
+            override fun onFailure(message: String?) {
+                viewModelScope.launch{
+                    _failure.value = message
+                }
+            }
+        }))
     }
 
     companion object {

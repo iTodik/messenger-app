@@ -3,11 +3,12 @@ package ge.itodadze.messengerapp.view.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.viewmodel.CreationExtras
+import androidx.recyclerview.widget.LinearLayoutManager
 import ge.itodadze.messengerapp.databinding.ActivityChatBinding
-import ge.itodadze.messengerapp.databinding.ActivitySignUpBinding
+import ge.itodadze.messengerapp.view.adapter.ChatAdapter
 import ge.itodadze.messengerapp.viewmodel.ChatViewModel
 
 
@@ -25,7 +26,6 @@ class ChatActivity : AppCompatActivity() {
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         viewModel.logId.observe(this) {
 
             if (it == null) {
@@ -39,24 +39,40 @@ class ChatActivity : AppCompatActivity() {
                 val chatId: String = intent.extras!!.getString(CHAT_ID)!!
                 val conversationPartner: String = intent.extras!!.getString(PARTNER)!!
 
-                registerObservers(it)
+                registerAdapters(it)
+
+                registerObservers()
 
                 registerListeners(it, chatId, conversationPartner)
 
-                renderInitial(it, chatId)
+                renderInitial(chatId, conversationPartner)
             }
 
         }
 
     }
 
-    private fun renderInitial(user: String, chatId: String) {
-        viewModel.get(chatId)
+    private fun registerAdapters(user: String) {
+        binding.messages.adapter = ChatAdapter(emptyList(), user)
+        binding.messages.layoutManager = LinearLayoutManager(applicationContext)
     }
 
-    private fun registerObservers(user: String) {
-        viewModel.messages.observe(this){
+    private fun renderInitial(chatId: String, partner: String) {
+        viewModel.get(chatId)
+        viewModel.getConversationPartner(partner)
+    }
 
+    private fun registerObservers() {
+        viewModel.failure.observe(this) {
+            Toast.makeText(applicationContext, it, Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.messages.observe(this){
+            (binding.messages.adapter as ChatAdapter).update(it)
+        }
+
+        viewModel.partner.observe(this){
+            // toolbar
         }
     }
 
@@ -64,6 +80,14 @@ class ChatActivity : AppCompatActivity() {
         binding.sendText.setOnClickListener {
             viewModel.sendText(chatId, binding.inputText.text.toString(), user, partner)
             binding.inputText.setText(EMPTY_TEXT)
+        }
+
+        viewModel.listenChat(chatId)
+
+        binding.backButton.setOnClickListener {
+            viewModel.stopListenChat(chatId)
+            val intent = Intent(applicationContext, MainActivity::class.java)
+            startActivity(intent)
         }
     }
 
