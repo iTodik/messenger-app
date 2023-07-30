@@ -1,3 +1,6 @@
 package ge.itodadze.messengerapp.view.model
 
-data class ViewChat (val viewUser: ViewUser?, val message: List<String>?)
+import ge.itodadze.messengerapp.viewmodel.models.Message
+
+
+data class ViewChat (val chat_id: String?, val viewUser: ViewUser?, val message: Message?)

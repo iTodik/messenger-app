@@ -2,7 +2,10 @@ package ge.itodadze.messengerapp.domain.repository
 
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import ge.itodadze.messengerapp.view.model.ViewChat
+import ge.itodadze.messengerapp.view.model.ViewUser
 import ge.itodadze.messengerapp.viewmodel.callback.CallbackHandler
 import ge.itodadze.messengerapp.viewmodel.models.Chat
 import ge.itodadze.messengerapp.viewmodel.models.Message
@@ -20,9 +23,37 @@ class ChatsFirebaseRepository(dbUrl: String):ChatsRepository {
         .getReference("users_chats")
 
 
-    //override fun getUsersLastChats(user_id: String?, handler: CallbackHandler<List<Chat>>?) {
+    override fun getUsersChats(user_id: String?, handler: CallbackHandler<MutableList<ViewChat>>?) {
 
-    //}
+        if(user_id==null){
+            handler?.onResultEmpty("User id not provided")
+            return
+        }
+
+        usersChats.child(user_id).get().addOnSuccessListener { snapshot ->
+            val chatList = snapshot.getValue(UserChats::class.java)
+
+            val activeChats: MutableList<ViewChat>? = mutableListOf()
+            if (chatList != null) {
+                for(item in chatList.chat_ids!!){
+                    chats.child(item).get().addOnSuccessListener {
+                        it.getValue(Chat::class.java)?.let { it1 ->
+                            activeChats?.add(ViewChat(chat_id = it1.identifier, ViewUser(nickname = null, profession = null, imgUri = null),
+                                it1.messages?.get(0)
+                            ))
+                        }
+                    }.addOnFailureListener {
+                        handler?.onResultEmpty("active chat with given id not found")
+                    }
+                }
+            }
+            handler?.onResult(activeChats)
+
+        }.addOnFailureListener{
+            handler?.onResultEmpty("User has no active chats")
+        }
+
+    }
 
     override fun getChat(chat_id: String?, handler: CallbackHandler<Chat>?) {
         if(chat_id==null){
@@ -45,7 +76,6 @@ class ChatsFirebaseRepository(dbUrl: String):ChatsRepository {
             handler?.onResultEmpty("Not enough information provided")
         } else{
 
-            // rest of message null handling is taken care of in add message
             if(first_id==null || second_id==null){
                 handler?.onResultEmpty("Chat between Users with null id cant be added")
                 return

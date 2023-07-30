@@ -14,8 +14,6 @@ import ge.itodadze.messengerapp.viewmodel.FrontPageViewModel
 
 
 
-/////////////////// NEEDS FINISHING AFTER ADDING CHAT REPOSITORY
-
 class FrontPageFragment(private val parent: AppCompatActivity,
                         private val viewModel: FrontPageViewModel
 ) : Fragment(){
@@ -47,7 +45,7 @@ class FrontPageFragment(private val parent: AppCompatActivity,
     }
 
     private fun renderInitial(id: String) {
-
+        // viewModel.getLastChats(id)
     }
 
     private fun registerListeners(id: String) {

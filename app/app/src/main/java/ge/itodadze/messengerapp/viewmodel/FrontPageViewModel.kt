@@ -8,12 +8,10 @@ import ge.itodadze.messengerapp.domain.repository.ChatsRepository
 import ge.itodadze.messengerapp.domain.repository.UsersFirebaseRepository
 import ge.itodadze.messengerapp.domain.repository.UsersRepository
 import ge.itodadze.messengerapp.view.model.ViewChat
-import ge.itodadze.messengerapp.view.model.ViewUser
-import ge.itodadze.messengerapp.viewmodel.callback.GetLastChatsCallbackHandler
 import ge.itodadze.messengerapp.viewmodel.callback.GetUserCallbackHandler
+import ge.itodadze.messengerapp.viewmodel.callback.GetUsersChatsCallbackHandler
 import ge.itodadze.messengerapp.viewmodel.listener.CallbackListenerWithResult
 import ge.itodadze.messengerapp.viewmodel.models.Chat
-import ge.itodadze.messengerapp.viewmodel.models.User
 import kotlinx.coroutines.launch
 
 
@@ -49,6 +47,25 @@ class FrontPageViewModel(private val logInManager: LogInManager,
     }
 
     fun getLastChats(user_id:String?){
+        viewModelScope.launch { chatsRepository.getUsersChats(user_id, GetUsersChatsCallbackHandler(
+            object:CallbackListenerWithResult<MutableList<ViewChat>>{
+
+                override fun onSuccess(result: MutableList<ViewChat>) {
+                    viewModelScope.launch {
+
+                        // replace empty viewUsers here
+                        // _lastChats.value = result
+                    }
+                }
+
+                override fun onFailure(message: String?) {
+                    viewModelScope.launch{
+                        _failure.value = message
+                    }
+                }
+
+            }
+        )) }
 
     }
 

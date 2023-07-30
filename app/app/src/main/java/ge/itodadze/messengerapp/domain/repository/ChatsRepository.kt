@@ -1,12 +1,13 @@
 package ge.itodadze.messengerapp.domain.repository
 
+import ge.itodadze.messengerapp.view.model.ViewChat
 import ge.itodadze.messengerapp.viewmodel.callback.CallbackHandler
 import ge.itodadze.messengerapp.viewmodel.models.Chat
 import ge.itodadze.messengerapp.viewmodel.models.Message
 
 interface ChatsRepository {
 
-    // fun getUsersLastChats(user_id: String?, handler: CallbackHandler<List<Chat>>?)
+    fun getUsersChats(user_id: String?, handler: CallbackHandler<MutableList<ViewChat>>?)
 
     fun getChat(chat_id: String?, handler: CallbackHandler<Chat>?)
 

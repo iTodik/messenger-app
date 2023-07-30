@@ -49,6 +49,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun registerObservers() {
 
+
+
     }
 
     private fun registerListeners() {

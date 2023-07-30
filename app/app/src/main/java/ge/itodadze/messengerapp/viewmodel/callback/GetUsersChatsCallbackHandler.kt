@@ -1,11 +1,12 @@
 package ge.itodadze.messengerapp.viewmodel.callback
 
+import ge.itodadze.messengerapp.view.model.ViewChat
 import ge.itodadze.messengerapp.viewmodel.listener.CallbackListenerWithResult
 import ge.itodadze.messengerapp.viewmodel.models.Chat
 
 
-class GetLastChatsCallbackHandler(private val listener: CallbackListenerWithResult<List<Chat>>?):CallbackHandler<List<Chat>> {
-    override fun onResult(result: List<Chat>?) {
+class GetUsersChatsCallbackHandler(private val listener: CallbackListenerWithResult<MutableList<ViewChat>>?):CallbackHandler<MutableList<ViewChat>> {
+    override fun onResult(result: MutableList<ViewChat>?) {
         if (result == null) {
             listener?.onFailure("Could not retrieve active chats.")
         } else {
