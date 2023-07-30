@@ -75,22 +75,18 @@ class ChatsFirebaseRepository(dbUrl: String):ChatsRepository {
     override fun addChat(chat: Chat?, first_id: String?, second_id: String?, handler: CallbackHandler<Chat>?) {
         if(chat==null){
             handler?.onResultEmpty("chat not provided")
-        } else if (chat.messages==null || chat.messages.size != 0){
-            handler?.onResultEmpty("Not enough information provided")
-        } else{
-
-            if(first_id==null || second_id==null){
-                handler?.onResultEmpty("Chat between Users with null id cant be added")
-                return
-            }
+        } else if (first_id==null || second_id==null) {
+            handler?.onResultEmpty("Chat between Users with null id cant be added")
+        } else {
 
             val id: String = UUID.randomUUID().toString()
             val chatWithId: Chat = chat.withIdAndMessages(id)
             chats.child(id).setValue(chatWithId)
 
-            addChatToUser(first_id, id)
-            addChatToUser(second_id, id)
+            addChatToUser(first_id, id, handler)
+            addChatToUser(second_id, id, handler)
 
+            handler?.onResult(chatWithId)
         }
     }
 
@@ -106,12 +102,21 @@ class ChatsFirebaseRepository(dbUrl: String):ChatsRepository {
 
 
             chats.child(chat_id).get().addOnSuccessListener {
-                val chat = it.getValue(Chat::class.java)
-                val id: String = UUID.randomUUID().toString()
-                val messageWithId: Message = message.withId(id)
-                chat?.messages?.add(messageWithId)
-                chats.child(chat_id).setValue(chat)
-
+                var chat = it.getValue(Chat::class.java)
+                if (chat == null) {
+                    handler?.onResultEmpty("Could not retrieve chat")
+                } else {
+                    val id: String = UUID.randomUUID().toString()
+                    val messageWithId: Message = message.withId(id)
+                    if (chat.messages == null) {
+                        chat = Chat(
+                            mutableListOf(messageWithId), chat.identifier)
+                    } else {
+                        chat.messages!!.add(messageWithId)
+                    }
+                    chats.child(chat_id).setValue(chat)
+                    handler?.onResult(messageWithId)
+                }
             }.addOnFailureListener{
                 handler?.onResultEmpty("Chat with given id not found")
             }
@@ -154,15 +159,15 @@ class ChatsFirebaseRepository(dbUrl: String):ChatsRepository {
         }
     }
 
-    private fun addChatToUser(user_id: String, chat_id: String){
+    private fun addChatToUser(user_id: String, chat_id: String, handler: CallbackHandler<Chat>?){
 
         usersChats.child(user_id).get().addOnSuccessListener{
-            val currentChats = it.getValue(UserChats::class.java)
-            currentChats?.chat_ids?.add(chat_id)
+            var currentChats = it.getValue(UserChats::class.java)
+            if (currentChats == null) currentChats = UserChats(mutableListOf(chat_id), user_id)
+            currentChats.chat_ids!!.add(chat_id)
             usersChats.child(user_id).setValue(currentChats)
         }.addOnFailureListener{
-            val currentChats = UserChats(mutableListOf(chat_id), user_id)
-            usersChats.child(user_id).setValue(currentChats)
+            handler?.onResultEmpty("trouble registering chat for user")
         }
     }
 

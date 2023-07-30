@@ -35,8 +35,7 @@ class ChatActivity : AppCompatActivity() {
                 startActivity(intent)
             } else if (intent.extras?.getString(CHAT_ID) == null
                 || intent.extras?.getString(PARTNER) == null) {
-                val intent = Intent(applicationContext, MainActivity::class.java)
-                startActivity(intent)
+                finish()
             } else {
                 val chatId: String = intent.extras!!.getString(CHAT_ID)!!
                 val conversationPartner: String = intent.extras!!.getString(PARTNER)!!
@@ -91,8 +90,7 @@ class ChatActivity : AppCompatActivity() {
 
         binding.backButton.setOnClickListener {
             viewModel.stopListenChat(chatId)
-            val intent = Intent(applicationContext, MainActivity::class.java)
-            startActivity(intent)
+            finish()
         }
     }
 

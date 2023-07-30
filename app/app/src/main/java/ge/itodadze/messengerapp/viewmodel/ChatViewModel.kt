@@ -32,8 +32,8 @@ class ChatViewModel(private val logInManager: LogInManager,
     val logId: LiveData<String?>
         get() = _logId
 
-    private val _messages = MutableLiveData<MutableList<Message>>()
-    val messages: LiveData<MutableList<Message>>
+    private val _messages = MutableLiveData<MutableList<Message>?>()
+    val messages: LiveData<MutableList<Message>?>
         get() = _messages
 
     private val _failure = MutableLiveData<String>()

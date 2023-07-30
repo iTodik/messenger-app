@@ -47,8 +47,8 @@ class ChatAdapter(private var messages: List<Message>, private val userId: Strin
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun update(newMessages: List<Message>) {
-        messages = newMessages
+    fun update(newMessages: List<Message>?) {
+        messages = newMessages ?: emptyList()
         notifyDataSetChanged()
     }
 
