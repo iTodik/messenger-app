@@ -29,39 +29,49 @@ class ChatActivity : AppCompatActivity() {
         viewModel.logId.observe(this) {
 
             if (it == null) {
-                val intent = Intent(parent.applicationContext, SignInActivity::class.java)
+                val intent = Intent(applicationContext, SignInActivity::class.java)
+                startActivity(intent)
+            } else if (intent.extras?.getString(CHAT_ID) == null
+                || intent.extras?.getString(PARTNER) == null) {
+                val intent = Intent(applicationContext, MainActivity::class.java)
                 startActivity(intent)
             } else {
-                registerObservers()
+                val chatId: String = intent.extras!!.getString(CHAT_ID)!!
+                val conversationPartner: String = intent.extras!!.getString(PARTNER)!!
 
-                registerListeners(it)
+                registerObservers(it)
 
-                renderInitial(it)
+                registerListeners(it, chatId, conversationPartner)
+
+                renderInitial(it, chatId)
             }
 
         }
 
     }
 
-    private fun renderInitial(id: String) {
-        //viewModel.get(id)  need chat_id here that i'll get from intent
+    private fun renderInitial(user: String, chatId: String) {
+        viewModel.get(chatId)
     }
 
-    private fun registerObservers() {
-
-
+    private fun registerObservers(user: String) {
         viewModel.messages.observe(this){
 
         }
-
-
     }
 
-    private fun registerListeners(id:String) {
-
+    private fun registerListeners(user: String, chatId: String, partner: String) {
+        binding.sendText.setOnClickListener {
+            viewModel.sendText(chatId, binding.inputText.text.toString(), user, partner)
+            binding.inputText.setText(EMPTY_TEXT)
+        }
     }
 
-
+    companion object {
+        const val CHAT_ID: String = "chat_id"
+        const val PARTNER: String = "partner"
+        private const val EMPTY_TEXT: String = ""
+    }
 
 }
 
