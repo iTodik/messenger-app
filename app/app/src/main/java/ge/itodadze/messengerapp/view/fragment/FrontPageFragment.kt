@@ -76,7 +76,7 @@ class FrontPageFragment(private val parent: AppCompatActivity,
             }
         })
 
-        viewModel.listenUserChats(id)
+
     }
 
     private fun registerObservers(id: String) {
@@ -96,7 +96,7 @@ class FrontPageFragment(private val parent: AppCompatActivity,
         }
 
         viewModel.openChat.observe(parent) {
-            viewModel.stopListenChat(id)
+
             val intent = Intent(parent.applicationContext, ChatActivity::class.java)
             intent.putExtra(ChatActivity.CHAT_ID, it.first)
             intent.putExtra(ChatActivity.PARTNER, it.second)
