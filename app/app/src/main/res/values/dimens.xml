@@ -78,6 +78,7 @@
         <dimen name="chat_message_radius">28dp</dimen>
         <dimen name="chat_send_button_radius">12dp</dimen>
         <dimen name="chat_send_button_diameter">24dp</dimen>
+        <dimen name="chat_big_side_margin">60dp</dimen>
         <!-- avatar -->
         <dimen name="chat_avatar_border_width">4dp</dimen>
         <dimen name="chat_avatar_diameter">60dp</dimen>

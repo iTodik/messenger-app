@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import ge.itodadze.messengerapp.databinding.ActivityChatBinding
 import ge.itodadze.messengerapp.view.adapter.ChatAdapter
+import ge.itodadze.messengerapp.view.decorator.ChatItemDecoration
 import ge.itodadze.messengerapp.viewmodel.ChatViewModel
 
 
@@ -54,8 +55,10 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun registerAdapters(user: String) {
-        binding.messages.adapter = ChatAdapter(emptyList(), user)
+        binding.messages.adapter = ChatAdapter(this, emptyList(), user)
         binding.messages.layoutManager = LinearLayoutManager(applicationContext)
+        binding.messages.addItemDecoration(ChatItemDecoration(
+            (binding.messages.adapter as ChatAdapter)::getTopSpacing))
     }
 
     private fun renderInitial(chatId: String, partner: String) {

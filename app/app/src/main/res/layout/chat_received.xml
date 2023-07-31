@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/time"
+        android:layout_gravity="end"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_marginTop="0dp"
@@ -14,24 +16,22 @@
         android:text="@string/default_time"
         android:textColor="@color/text_grey"
         android:textSize="@dimen/chat_small_text"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        tools:ignore="RelativeOverlap" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:background="@drawable/received_message_box"
         android:id="@+id/message_box"
+        android:layout_centerVertical="true"
+        android:layout_gravity="start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
         android:layout_marginBottom="0dp"
         android:layout_marginStart="@dimen/chat_side_margin"
-        android:layout_marginEnd="@dimen/chat_side_margin"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/time"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_marginEnd="@dimen/chat_big_side_margin"
+        android:layout_alignParentStart="true">
 
         <TextView
             android:id="@+id/text"
@@ -41,10 +41,11 @@
             android:layout_marginBottom="@dimen/chat_space_around_text"
             android:layout_marginStart="@dimen/chat_space_around_text"
             android:layout_marginEnd="@dimen/chat_space_around_text"
-            app:layout_constraintTop_toTopOf="@+id/message_box"
-            app:layout_constraintBottom_toBottomOf="@+id/message_box"
-            app:layout_constraintStart_toStartOf="@+id/message_box"
-            app:layout_constraintEnd_toEndOf="@+id/message_box"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:text="@string/default_message"
             android:textColor="@color/text_dark_grey"
             android:textSize="@dimen/chat_small_text"
@@ -53,4 +54,4 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
