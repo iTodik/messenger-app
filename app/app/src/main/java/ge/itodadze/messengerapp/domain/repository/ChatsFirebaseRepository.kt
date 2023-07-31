@@ -7,6 +7,7 @@ import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import ge.itodadze.messengerapp.utils.ChatIdGenerator
 import ge.itodadze.messengerapp.view.model.ViewChat
 import ge.itodadze.messengerapp.view.model.ViewUser
 import ge.itodadze.messengerapp.viewmodel.callback.CallbackHandler
@@ -79,14 +80,22 @@ class ChatsFirebaseRepository(dbUrl: String):ChatsRepository {
             handler?.onResultEmpty("Chat between Users with null id cant be added")
         } else {
 
-            val id: String = UUID.randomUUID().toString()
-            val chatWithId: Chat = chat.withIdAndMessages(id)
-            chats.child(id).setValue(chatWithId)
+            val id: String = ChatIdGenerator.generate(first_id, second_id)
 
-            addChatToUser(first_id, id, handler)
-            addChatToUser(second_id, id, handler)
+            chats.child(id).get().addOnSuccessListener {
+                if(it.exists() && it.getValue(Chat::class.java) != null) {
+                    handler?.onResult(it.getValue(Chat::class.java))
+                } else {
+                    val chatWithId: Chat = chat.withIdAndMessages(id)
+                    chats.child(id).setValue(chatWithId)
 
-            handler?.onResult(chatWithId)
+                    addChatToUser(first_id, id, handler)
+                    addChatToUser(second_id, id, handler)
+                    handler?.onResult(chatWithId)
+                }
+            }.addOnFailureListener{
+                handler?.onResultEmpty("chat could not be created due to database error")
+            }
         }
     }
 
