@@ -52,6 +52,9 @@ class FrontPageChatsAdapter(private val context: Context,
         if(text!=null && text.length > 60){
             return text.subSequence(0, 60).toString() + "..."
         }
+        if(text!=null){
+            return text
+        }
         return "text"
     }
 
