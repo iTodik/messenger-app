@@ -66,8 +66,15 @@
     <dimen name="chat_medium_text">20sp</dimen>
     <dimen name="chat_small_text">14sp</dimen>
         <!-- toolbar -->
-        <dimen name="chat_toolbar_height">100dp</dimen>
+        <dimen name="chat_toolbar_height">140dp</dimen>
         <dimen name="chat_toolbar_texts_height">60dp</dimen>
+        <dimen name="chat_toolbar_margin">20dp</dimen>
+        <dimen name="chat_toolbar_inner_vertical_margin">8dp</dimen>
+        <dimen name="chat_toolbar_inner_horizontal_margin">32dp</dimen>
+        <dimen name="chat_toolbar_back_width">40dp</dimen>
+        <dimen name="chat_collapsed_height">75dp</dimen>
+        <dimen name="chat_toolbar_elevation">4dp</dimen>
+        <dimen name="chat_rest_elevation">2dp</dimen>
         <!-- chat item -->
         <dimen name="chat_space_around_text">16dp</dimen>
         <dimen name="chat_same_person_vertical_margin">8dp</dimen>
@@ -82,6 +89,7 @@
         <!-- avatar -->
         <dimen name="chat_avatar_border_width">4dp</dimen>
         <dimen name="chat_avatar_diameter">60dp</dimen>
+        <dimen name="chat_avatar_margins">20dp</dimen>
 
     <!-- SIGNING PAGES -->
     <dimen name="sign_small_text">20sp</dimen>

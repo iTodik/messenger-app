@@ -3,12 +3,14 @@ package ge.itodadze.messengerapp.view.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import ge.itodadze.messengerapp.R
 import ge.itodadze.messengerapp.databinding.ActivityChatBinding
 import ge.itodadze.messengerapp.view.adapter.ChatAdapter
 import ge.itodadze.messengerapp.view.decorator.ChatItemDecoration
@@ -76,10 +78,17 @@ class ChatActivity : AppCompatActivity() {
         }
 
         viewModel.partner.observe(this){
-            binding.nickname.text = it.nickname
-            binding.profession.text = it.profession
-            Glide.with(applicationContext).load(it.imgUri)
-                .apply(RequestOptions.circleCropTransform()).into(binding.avatar)
+            binding.collapsingNickname.text = it.nickname
+            binding.toolbarNickname.text = it.nickname
+            binding.collapsingProfession.text = it.profession
+            binding.toolbarProfession.text = it.profession
+            if (it.imgUri == null) {
+                Glide.with(applicationContext).load(R.drawable.avatar_placeholder)
+                    .apply(RequestOptions.circleCropTransform()).into(binding.collapsingAvatar)
+            } else {
+                Glide.with(applicationContext).load(it.imgUri)
+                    .apply(RequestOptions.circleCropTransform()).into(binding.collapsingAvatar)
+            }
         }
     }
 
@@ -91,10 +100,28 @@ class ChatActivity : AppCompatActivity() {
 
         viewModel.listenChat(chatId)
 
-        binding.backButton.setOnClickListener {
+        binding.collapsingBack.setOnClickListener {
             viewModel.stopListenChat(chatId)
             finish()
         }
+
+        binding.toolbarBack.setOnClickListener {
+            viewModel.stopListenChat(chatId)
+            finish()
+        }
+
+        binding.collapsing.addOnOffsetChangedListener { _, verticalOffset ->
+            if (verticalOffset <= -binding.collapsing.totalScrollRange) {
+                binding.toolbar.visibility = View.VISIBLE
+                binding.initialCollapsing.visibility = View.GONE
+                Glide.with(applicationContext).load(binding.collapsingAvatar.drawable)
+                    .apply(RequestOptions.circleCropTransform()).into(binding.toolbarAvatar)
+            } else {
+                binding.initialCollapsing.visibility = View.VISIBLE
+                binding.toolbar.visibility = View.GONE
+            }
+        }
+
     }
 
     companion object {

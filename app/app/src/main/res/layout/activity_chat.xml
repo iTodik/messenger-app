@@ -1,118 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".view.activity.ChatActivity"
-    android:background="@color/messenger_secondary">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/header"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/chat_toolbar_elevation"
+        android:background="@color/messenger_secondary"
+        android:layout_alignParentTop="true"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:background="@color/messenger_primary"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/collapsing"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/backButton"
-                android:layout_gravity="start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/chat_side_margin"
-                android:layout_marginTop="@dimen/chat_side_margin"
-                android:layout_marginBottom="@dimen/chat_side_margin"
-                android:contentDescription="@string/back_button_desc"
-                android:src="@drawable/arrow_back"
-                app:layout_collapseMode="pin"
-                app:tint="@color/messenger_secondary" />
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/chat_toolbar_height"
-                android:layout_gravity="bottom"
-                app:layout_collapseMode="pin">
+                android:layout_height="wrap_content"
+                android:background="@color/messenger_primary"
+                android:minHeight="?attr/actionBarSize"
+                app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/initial_collapsing"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="@dimen/chat_toolbar_height">
+
+                    <ImageView
+                        android:id="@+id/collapsing_back"
+                        android:layout_gravity="start"
+                        android:layout_width="@dimen/chat_toolbar_back_width"
+                        android:layout_height="@dimen/chat_toolbar_back_width"
+                        android:layout_marginStart="@dimen/chat_toolbar_margin"
+                        android:layout_marginTop="@dimen/chat_side_margin"
+                        android:layout_marginBottom="@dimen/chat_side_margin"
+                        android:contentDescription="@string/back_button_desc"
+                        android:src="@drawable/arrow_back"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/messenger_secondary" />
+
+                    <TextView
+                        android:id="@+id/collapsing_nickname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="@dimen/chat_toolbar_margin"
+                        android:layout_marginTop="@dimen/chat_toolbar_inner_vertical_margin"
+                        android:text="@string/chat_nickname_placeholder"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/chat_big_text"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/collapsing_back" />
+
+                    <TextView
+                        android:id="@+id/collapsing_profession"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/chat_toolbar_margin"
+                        android:layout_marginTop="@dimen/chat_toolbar_inner_vertical_margin"
+                        android:text="@string/chat_profession_placeholder"
+                        android:textSize="@dimen/chat_small_text"
+                        android:textColor="@color/white"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/collapsing_nickname" />
+
+                    <ImageView
+                        android:contentDescription="@string/chat_avatar_desc"
+                        android:foreground="@drawable/avatar_background"
+                        android:id="@+id/collapsing_avatar"
+                        android:layout_width="@dimen/chat_avatar_diameter"
+                        android:layout_height="@dimen/chat_avatar_diameter"
+                        android:layout_marginEnd="@dimen/chat_avatar_margins"
+                        android:layout_marginBottom="@dimen/chat_avatar_margins"
+                        android:src="@drawable/avatar_placeholder"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/chat_collapsed_height"
+                    app:layout_collapseMode="pin"
+                    android:visibility="invisible">
+
+                    <ImageView
+                        android:id="@+id/toolbar_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/messenger_secondary"
+                        android:src="@drawable/arrow_back"
+                        android:contentDescription="@string/back_button_desc"
+                        app:tint="@color/messenger_secondary"
+                        />
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_marginStart="@dimen/chat_toolbar_inner_horizontal_margin"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        tools:ignore="UselessParent">
+                        android:orientation="vertical">
 
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="@dimen/chat_toolbar_texts_height"
-                            android:fitsSystemWindows="true"
-                            android:gravity="center_vertical"
-                            android:orientation="vertical"
-                            app:layout_collapseMode="pin"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
+                        <TextView
+                            android:id="@+id/toolbar_nickname"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/chat_medium_text"
+                            android:text="@string/chat_nickname_placeholder" />
 
-                            <TextView
-                                android:id="@+id/nickname"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/chat_nickname_placeholder"
-                                android:textColor="@color/text_white"
-                                android:textStyle="bold"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:textSize="@dimen/chat_big_text" />
-
-                            <TextView
-                                android:id="@+id/profession"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:text="@string/chat_profession_placeholder"
-                                android:textColor="@color/text_white"
-                                android:textSize="@dimen/chat_small_text" />
-
-                        </LinearLayout>
-
-                        <ImageView
-                            android:id="@+id/avatar"
-                            android:contentDescription="@string/chat_avatar_desc"
-                            android:layout_marginTop="@dimen/chat_side_margin"
-                            android:layout_width="@dimen/chat_avatar_diameter"
-                            android:layout_height="@dimen/chat_avatar_diameter"
-                            android:gravity="end"
-                            android:layout_marginEnd="@dimen/chat_side_margin"
-                            android:scaleType="centerCrop"
-                            android:visibility="visible"
-                            android:foreground="@drawable/avatar_background"
-                            android:src="@drawable/avatar_placeholder"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"/>
-
+                        <TextView
+                            android:id="@+id/toolbar_profession"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/chat_small_text"
+                            android:text="@string/chat_profession_placeholder"
+                            android:textColor="@color/white" />
                     </LinearLayout>
 
-                </LinearLayout>
+                    <ImageView
+                        android:contentDescription="@string/chat_avatar_desc"
+                        android:foreground="@drawable/avatar_background"
+                        android:id="@+id/toolbar_avatar"
+                        android:layout_width="@dimen/chat_avatar_diameter"
+                        android:layout_height="@dimen/chat_avatar_diameter"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="@dimen/chat_toolbar_margin"
+                        android:src="@drawable/avatar_placeholder" />
 
-            </androidx.appcompat.widget.Toolbar>
+                </androidx.appcompat.widget.Toolbar>
 
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-    </com.google.android.material.appbar.AppBarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/chat_bottom"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:elevation="@dimen/chat_rest_elevation"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:background="@drawable/typing_message_box"
@@ -168,6 +210,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/chat_side_margin"
+            app:layout_constrainedHeight="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:layout_constraintBottom_toTopOf="@+id/type_box"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -175,4 +219,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
