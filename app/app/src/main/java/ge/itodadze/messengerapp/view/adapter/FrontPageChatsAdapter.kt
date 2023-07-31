@@ -1,5 +1,6 @@
 package ge.itodadze.messengerapp.view.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -15,7 +16,8 @@ import java.util.concurrent.TimeUnit
 
 
 class FrontPageChatsAdapter(private val context: Context,
-                            private var chatList: List<ViewChat>): RecyclerView.Adapter<FrontPageChatViewHolder>() {
+                            private var chatList: List<ViewChat>,
+                            private val listener: SearchChatListener): RecyclerView.Adapter<FrontPageChatViewHolder>() {
 
     private lateinit var binding: LastChatsListItemBinding
 
@@ -40,7 +42,9 @@ class FrontPageChatsAdapter(private val context: Context,
         holder.message.text = handleText(chatList[position].message?.text)
         holder.username.text = chatList[position].viewUser?.nickname
         holder.date.text = handleDate(chatList[position].message?.timestamp)
-
+        holder.itemView.setOnClickListener {
+            listener.userClicked(chatList[position])
+        }
 
     }
 
@@ -68,6 +72,12 @@ class FrontPageChatsAdapter(private val context: Context,
         val dateFormat = SimpleDateFormat("dd MMM", Locale.getDefault())
 
         return dateFormat.format(dateFormat)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun update(newList: List<ViewChat>) {
+        chatList = newList
+        notifyDataSetChanged()
     }
 }
 

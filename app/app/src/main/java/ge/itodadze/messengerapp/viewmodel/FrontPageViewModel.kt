@@ -8,8 +8,14 @@ import ge.itodadze.messengerapp.domain.repository.ChatsRepository
 import ge.itodadze.messengerapp.domain.repository.UsersFirebaseRepository
 import ge.itodadze.messengerapp.domain.repository.UsersRepository
 import ge.itodadze.messengerapp.view.model.ViewChat
+import ge.itodadze.messengerapp.view.model.ViewUser
+import ge.itodadze.messengerapp.viewmodel.callback.GetChatCallbackHandler
+import ge.itodadze.messengerapp.viewmodel.callback.GetUserCallbackHandler
 import ge.itodadze.messengerapp.viewmodel.callback.GetUsersChatsCallbackHandler
 import ge.itodadze.messengerapp.viewmodel.listener.CallbackListenerWithResult
+import ge.itodadze.messengerapp.viewmodel.models.Chat
+import ge.itodadze.messengerapp.viewmodel.models.User
+import ge.itodadze.messengerapp.viewmodel.models.UserChats
 import kotlinx.coroutines.launch
 
 
@@ -31,6 +37,14 @@ class FrontPageViewModel(private val logInManager: LogInManager,
     val failure: LiveData<String>
         get() = _failure
 
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean>
+        get() = _loading
+
+    private val _openChat = MutableLiveData<Pair<String, String>>()
+    val openChat: LiveData<Pair<String, String>>
+        get() = _openChat
+
     init {
         val isLogged: Boolean = logInManager.isCurrentlyLogged()
         viewModelScope.launch {
@@ -44,27 +58,99 @@ class FrontPageViewModel(private val logInManager: LogInManager,
         }
     }
 
-    fun getLastChats(user_id:String?){
-         chatsRepository.getUsersChats(user_id, GetUsersChatsCallbackHandler(
-            object:CallbackListenerWithResult<MutableList<ViewChat>>{
+    fun getLastChats(userId: String?, filterNickname: String){
+        viewModelScope.launch {
+            _lastChats.value = emptyList()
+            _loading.value = true
+        }
+         chatsRepository.getUsersChats(userId, GetUsersChatsCallbackHandler(
+            object:CallbackListenerWithResult<UserChats>{
+                override fun onSuccess(result: UserChats) {
+                    if (result.chat_ids != null) {
+                        val total: Int = result.chat_ids.size
+                        var tracker = 0
+                        for (chatAndPartner in result.chat_ids) {
+                            usersRepository.get(chatAndPartner.partnerId,
+                                GetUserCallbackHandler(object : CallbackListenerWithResult<User>{
+                                    override fun onSuccess(result: User) {
+                                        viewModelScope.launch{
+                                            tracker += 1
+                                            if (tracker == total) {
+                                                _loading.value = false
+                                            }
+                                        }
+                                        val user: User = result
+                                        if (user.nickname != null && user.nickname.startsWith(filterNickname)) {
+                                            chatsRepository.getChat(chatAndPartner.chatId,
+                                                GetChatCallbackHandler(object :
+                                                    CallbackListenerWithResult<Chat> {
+                                                    override fun onSuccess(result: Chat) {
+                                                        viewModelScope.launch {
+                                                            val list =
+                                                                _lastChats.value?.toMutableList()
+                                                            if (result.messages != null && result.messages.size > 0) {
+                                                                list?.add(
+                                                                    ViewChat(
+                                                                        result.identifier,
+                                                                        ViewUser.fromUser(user),
+                                                                        result.messages[result.messages.size - 1]
+                                                                    )
+                                                                )
+                                                            } else {
+                                                                list?.add(
+                                                                    ViewChat(
+                                                                        result.identifier,
+                                                                        ViewUser.fromUser(user),
+                                                                        null
+                                                                    )
+                                                                )
+                                                            }
+                                                            _lastChats.value = list
+                                                        }
+                                                    }
 
-                override fun onSuccess(result: MutableList<ViewChat>) {
-                    viewModelScope.launch {
-
-                        // replace empty viewUsers here
-                        // _lastChats.value = result
+                                                    override fun onFailure(message: String?) {
+                                                        viewModelScope.launch {
+                                                            _failure.value = message
+                                                        }
+                                                    }
+                                                })
+                                            )
+                                        }
+                                    }
+                                    override fun onFailure(message: String?) {
+                                        viewModelScope.launch{
+                                            tracker += 1
+                                            _failure.value = message
+                                        }
+                                    }
+                                }))
+                        }
                     }
                 }
+                override fun onFailure(message: String?) {
+                    viewModelScope.launch{
+                        _failure.value = message
+                        _loading.value = false
+                    }
+                }
+            }
+         ))
 
+    }
+
+    fun openChat(chatId: String, partnerNickname: String) {
+        usersRepository.getByNickname(partnerNickname,
+            GetUserCallbackHandler(object : CallbackListenerWithResult<User> {
+                override fun onSuccess(result: User) {
+                    _openChat.value = Pair(chatId, result.identifier!!)
+                }
                 override fun onFailure(message: String?) {
                     viewModelScope.launch{
                         _failure.value = message
                     }
                 }
-
-            }
-         ))
-
+            }))
     }
 
     companion object {

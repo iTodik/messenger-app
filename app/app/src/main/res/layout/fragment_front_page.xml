@@ -1,52 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".view.activity.MainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/messenger_secondary">
+    >
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:id="@+id/bar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/messenger_secondary"
+    app:layout_constraintTop_toTopOf="parent">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/home_toolbar_height"
+        android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/front_page_collapsing_bar"
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/purple_500"
-            android:fitsSystemWindows="true"
-            app:collapsedTitleTextColor="@color/white"
-            app:contentScrim="@color/purple_500"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/background"
-                app:layout_collapseMode="parallax" />
-
+            android:layout_height="@dimen/home_toolbar_height"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+            app:contentScrim="@color/messenger_primary"
+            android:minHeight="?attr/actionBarSize"
+            android:fitsSystemWindows="true">
 
             <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@drawable/background"
+                app:layout_collapseMode="pin">
 
+                <EditText
+                    android:autofillHints="name"
+                    android:gravity="start"
+                    android:background="@drawable/search_rect"
+                    android:drawableStart="@drawable/search"
+                    android:drawablePadding="@dimen/search_icon_padding"
+                    android:drawableTint="@color/text_dark_grey"
+                    android:drawableTintMode="src_in"
+                    android:hint="@string/search_hint"
+                    android:id="@+id/search_text"
+                    android:inputType="text"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/search_box_height"
+                    android:layout_marginTop="@dimen/home_side_margin"
+                    android:layout_marginBottom="@dimen/home_side_margin"
+                    android:layout_marginStart="@dimen/search_toolbar_inner_vertical_margin"
+                    android:layout_marginEnd="@dimen/home_side_margin"
+                    android:paddingStart="@dimen/home_side_margin"
+                    android:paddingEnd="@dimen/home_side_margin"
+                    android:paddingTop="@dimen/home_side_margin"
+                    android:paddingBottom="@dimen/home_side_margin"
+                    android:alpha="0.8"
+                    android:textColor="@color/text_dark_grey"
+                    android:textSize="@dimen/search_large_text"
+                    android:layout_gravity="bottom"
+                    />
+
+            </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/front_page_chats"
+    <ProgressBar
+        android:id="@+id/loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/bar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_anchorGravity="center"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        android:fitsSystemWindows="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintTop_toBottomOf="@+id/bar"
+        app:layout_constrainedHeight="true">
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/front_page_chats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constrainedHeight="true"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

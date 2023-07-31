@@ -8,10 +8,9 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import ge.itodadze.messengerapp.utils.ChatIdGenerator
-import ge.itodadze.messengerapp.view.model.ViewChat
-import ge.itodadze.messengerapp.view.model.ViewUser
 import ge.itodadze.messengerapp.viewmodel.callback.CallbackHandler
 import ge.itodadze.messengerapp.viewmodel.models.Chat
+import ge.itodadze.messengerapp.viewmodel.models.ChatAndPartner
 import ge.itodadze.messengerapp.viewmodel.models.Message
 import ge.itodadze.messengerapp.viewmodel.models.UserChats
 import java.util.*
@@ -27,7 +26,7 @@ class ChatsFirebaseRepository(dbUrl: String):ChatsRepository {
         .getReference("users_chats")
 
 
-    override fun getUsersChats(user_id: String?, handler: CallbackHandler<MutableList<ViewChat>>?) {
+    override fun getUsersChats(user_id: String?, handler: CallbackHandler<UserChats>?) {
 
         if(user_id==null){
             handler?.onResultEmpty("User id not provided")
@@ -36,23 +35,7 @@ class ChatsFirebaseRepository(dbUrl: String):ChatsRepository {
 
         usersChats.child(user_id).get().addOnSuccessListener { snapshot ->
             val chatList = snapshot.getValue(UserChats::class.java)
-
-            val activeChats: MutableList<ViewChat>? = mutableListOf()
-            if (chatList != null) {
-                for(item in chatList.chat_ids!!){
-                    chats.child(item).get().addOnSuccessListener {
-                        it.getValue(Chat::class.java)?.let { it1 ->
-                            activeChats?.add(ViewChat(chat_id = it1.identifier, ViewUser(nickname = null, profession = null, imgUri = null),
-                                it1.messages?.get(0)
-                            ))
-                        }
-                    }.addOnFailureListener {
-                        handler?.onResultEmpty("active chat with given id not found")
-                    }
-                }
-            }
-            handler?.onResult(activeChats)
-
+            handler?.onResult(chatList)
         }.addOnFailureListener{
             handler?.onResultEmpty("User has no active chats")
         }
@@ -89,8 +72,8 @@ class ChatsFirebaseRepository(dbUrl: String):ChatsRepository {
                     val chatWithId: Chat = chat.withIdAndMessages(id)
                     chats.child(id).setValue(chatWithId)
 
-                    addChatToUser(first_id, id, handler)
-                    addChatToUser(second_id, id, handler)
+                    addChatToUser(first_id, second_id, id, handler)
+                    addChatToUser(second_id, first_id, id, handler)
                     handler?.onResult(chatWithId)
                 }
             }.addOnFailureListener{
@@ -168,12 +151,12 @@ class ChatsFirebaseRepository(dbUrl: String):ChatsRepository {
         }
     }
 
-    private fun addChatToUser(user_id: String, chat_id: String, handler: CallbackHandler<Chat>?){
+    private fun addChatToUser(user_id: String, partner_id: String, chat_id: String, handler: CallbackHandler<Chat>?){
 
         usersChats.child(user_id).get().addOnSuccessListener{
             var currentChats = it.getValue(UserChats::class.java)
-            if (currentChats == null) currentChats = UserChats(mutableListOf(chat_id), user_id)
-            currentChats.chat_ids!!.add(chat_id)
+            if (currentChats == null) currentChats = UserChats(ArrayList(), user_id)
+            currentChats.chat_ids!!.add(ChatAndPartner(chat_id, partner_id))
             usersChats.child(user_id).setValue(currentChats)
         }.addOnFailureListener{
             handler?.onResultEmpty("trouble registering chat for user")
