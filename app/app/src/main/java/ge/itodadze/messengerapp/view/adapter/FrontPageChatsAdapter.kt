@@ -9,6 +9,9 @@ import com.bumptech.glide.request.RequestOptions
 import ge.itodadze.messengerapp.R
 import ge.itodadze.messengerapp.databinding.LastChatsListItemBinding
 import ge.itodadze.messengerapp.view.model.ViewChat
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class FrontPageChatsAdapter(private val context: Context,
@@ -36,8 +39,7 @@ class FrontPageChatsAdapter(private val context: Context,
 
         holder.message.text = handleText(chatList[position].message?.text)
         holder.username.text = chatList[position].viewUser?.nickname
-        // handle date (date type might need changing)
-        holder.date.text = chatList[position].message?.timestamp.toString()
+        holder.date.text = handleDate(chatList[position].message?.timestamp)
 
 
     }
@@ -49,8 +51,23 @@ class FrontPageChatsAdapter(private val context: Context,
         return "text"
     }
 
-    private fun handleDate(text: String?): String?{
-        return ""
+    private fun handleDate(date: Date?): String?{
+
+        val now = Date()
+        if(date==null){
+            return "0 min"
+        }
+        val millis = now.time - date.time
+
+        if((millis/6000)<3600){
+            return TimeUnit.MILLISECONDS.toMinutes(millis).toString() + " min"
+        } else if ((millis/6000)<3600*24){
+            return TimeUnit.MILLISECONDS.toHours(millis).toString() + " hour"
+        }
+
+        val dateFormat = SimpleDateFormat("dd MMM", Locale.getDefault())
+
+        return dateFormat.format(dateFormat)
     }
 }
 
