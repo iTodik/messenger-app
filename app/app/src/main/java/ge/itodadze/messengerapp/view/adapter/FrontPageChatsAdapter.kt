@@ -66,9 +66,9 @@ class FrontPageChatsAdapter(private val context: Context,
         }
         val millis = now.time - date.time
 
-        if((millis/6000)<3600){
+        if((millis/1000)<3600){
             return TimeUnit.MILLISECONDS.toMinutes(millis).toString() + " min"
-        } else if ((millis/6000)<3600*24){
+        } else if ((millis/1000)<3600*24){
             return TimeUnit.MILLISECONDS.toHours(millis).toString() + " hour"
         }
 
