@@ -99,4 +99,12 @@
     <dimen name="sign_up_vertical_margin">60dp</dimen>
     <!-- otherwise same dimensions as profile page -->
 
+    <dimen name="search_item_margin">20dp</dimen>
+    <dimen name="search_item_margin_end">16dp</dimen>
+    <dimen name="search_item_margin_bottom">40dp</dimen>
+    <dimen name="search_item_small_margin">7dp</dimen>
+    <dimen name="search_item_large_text">15sp</dimen>
+    <dimen name="search_item_small_text">12sp</dimen>
+    <dimen name="search_layout_width">200dp</dimen>
+
 </resources>

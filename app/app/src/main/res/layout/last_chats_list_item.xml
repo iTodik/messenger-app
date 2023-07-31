@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="20dp">
@@ -9,18 +8,18 @@
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/user_profile_image"
         style="@style/profileImage"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginStart="@dimen/search_item_margin"
+        android:layout_marginEnd="@dimen/search_item_margin_end"
+        android:layout_marginTop="@dimen/search_item_margin"
+        android:layout_marginBottom="@dimen/search_item_margin_bottom"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="@dimen/search_item_margin"
+        android:layout_marginTop="@dimen/search_item_margin"
         android:orientation="vertical"
         app:layout_constraintEnd_toStartOf="@+id/front_page_date"
         app:layout_constraintStart_toEndOf="@+id/user_profile_image"
@@ -30,16 +29,17 @@
             android:id="@+id/front_page_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="@dimen/search_item_margin_end"
             android:textColor="@color/black"
-            android:textSize="15sp">
+            android:textSize="@dimen/search_item_large_text">
         </TextView>
 
         <TextView
             android:id="@+id/front_page_text"
-            android:layout_width="200dp"
+            android:layout_width="@dimen/search_layout_width"
             android:layout_height="wrap_content"
-            android:textSize="12sp">
+            android:textColor="@color/text_dark_grey"
+            android:textSize="@dimen/search_item_small_text">
 
         </TextView>
 
@@ -49,10 +49,11 @@
         android:id="@+id/front_page_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="7dp"
-        android:text="placeholder"
-        android:textSize="12sp"
+        android:layout_marginTop="@dimen/search_item_margin"
+        android:layout_marginEnd="@dimen/search_item_small_margin"
+        android:text="@string/date_placeholder"
+        android:textSize="@dimen/search_item_small_text"
+        android:textColor="@color/text_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
