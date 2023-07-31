@@ -151,6 +151,48 @@ class ChatsFirebaseRepository(dbUrl: String):ChatsRepository {
         }
     }
 
+    override fun listenToUserChats(
+        userId: String?,
+        handler: CallbackHandler<UserChats>?
+    ): ValueEventListener? {
+        if(userId==null){
+            handler?.onResultEmpty("id not provided")
+            return null
+        }
+
+        val valueEventListener: ValueEventListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val result: UserChats? = snapshot
+                    .getValue(UserChats::class.java)
+                handler?.onResult(result)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                handler?.onResultEmpty(error.message)
+            }
+        }
+
+        usersChats.child(userId).addValueEventListener(valueEventListener)
+
+        return valueEventListener
+
+    }
+
+    override fun stopListenToUserChats(
+        userId: String?,
+        valueEventListener: ValueEventListener?,
+        handler: CallbackHandler<UserChats>?
+    ) {
+        if(userId==null){
+            handler?.onResultEmpty("id not provided")
+        } else if (valueEventListener == null) {
+            handler?.onResultEmpty("event listener not provided")
+        } else {
+            usersChats.child(userId).removeEventListener(valueEventListener)
+            handler?.onResult(null)
+        }
+    }
+
     private fun addChatToUser(user_id: String, partner_id: String, chat_id: String, handler: CallbackHandler<Chat>?){
 
         usersChats.child(user_id).get().addOnSuccessListener{

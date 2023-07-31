@@ -13,4 +13,6 @@ interface ChatsRepository {
     fun addMessage(chat_id: String?, message: Message?, handler: CallbackHandler<Message>?)
     fun listenToChat(chat_id: String?, handler: CallbackHandler<Chat>?): ValueEventListener?
     fun stopListenToChat(chat_id: String?, valueEventListener: ValueEventListener?, handler: CallbackHandler<Chat>?)
+    fun listenToUserChats(userId: String?, handler: CallbackHandler<UserChats>?): ValueEventListener?
+    fun stopListenToUserChats(userId: String?, valueEventListener: ValueEventListener?, handler: CallbackHandler<UserChats>?)
 }

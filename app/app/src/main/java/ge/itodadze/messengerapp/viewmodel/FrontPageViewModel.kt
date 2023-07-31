@@ -2,6 +2,7 @@ package ge.itodadze.messengerapp.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.*
+import com.google.firebase.database.ValueEventListener
 import ge.itodadze.messengerapp.R
 import ge.itodadze.messengerapp.domain.repository.ChatsFirebaseRepository
 import ge.itodadze.messengerapp.domain.repository.ChatsRepository
@@ -9,9 +10,7 @@ import ge.itodadze.messengerapp.domain.repository.UsersFirebaseRepository
 import ge.itodadze.messengerapp.domain.repository.UsersRepository
 import ge.itodadze.messengerapp.view.model.ViewChat
 import ge.itodadze.messengerapp.view.model.ViewUser
-import ge.itodadze.messengerapp.viewmodel.callback.GetChatCallbackHandler
-import ge.itodadze.messengerapp.viewmodel.callback.GetUserCallbackHandler
-import ge.itodadze.messengerapp.viewmodel.callback.GetUsersChatsCallbackHandler
+import ge.itodadze.messengerapp.viewmodel.callback.*
 import ge.itodadze.messengerapp.viewmodel.listener.CallbackListenerWithResult
 import ge.itodadze.messengerapp.viewmodel.models.Chat
 import ge.itodadze.messengerapp.viewmodel.models.User
@@ -44,6 +43,8 @@ class FrontPageViewModel(private val logInManager: LogInManager,
     private val _openChat = MutableLiveData<Pair<String, String>>()
     val openChat: LiveData<Pair<String, String>>
         get() = _openChat
+
+    private var eventListener: ValueEventListener? = null
 
     init {
         val isLogged: Boolean = logInManager.isCurrentlyLogged()
@@ -151,6 +152,27 @@ class FrontPageViewModel(private val logInManager: LogInManager,
                     }
                 }
             }))
+    }
+
+    fun listenUserChats(userId: String) {
+        eventListener = chatsRepository.listenToUserChats(userId,
+            UserChatEventCallbackHandler(object : CallbackListenerWithResult<UserChats>{
+                override fun onSuccess(result: UserChats) {
+                    getLastChats(userId, "")
+                }
+
+                override fun onFailure(message: String?) {
+                    viewModelScope.launch{
+                        _failure.value = message
+                    }
+                }
+            })
+        )
+
+    }
+
+    fun stopListenChat(userId: String) {
+        chatsRepository.stopListenToUserChats(userId, eventListener, null)
     }
 
     companion object {

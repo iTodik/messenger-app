@@ -44,7 +44,7 @@ class FrontPageFragment(private val parent: AppCompatActivity,
 
                 registerAdapter()
 
-                registerObservers()
+                registerObservers(it)
 
                 registerListeners(it)
 
@@ -75,9 +75,11 @@ class FrontPageFragment(private val parent: AppCompatActivity,
                 viewModel.getLastChats(id, p0.toString())
             }
         })
+
+        viewModel.listenUserChats(id)
     }
 
-    private fun registerObservers() {
+    private fun registerObservers(id: String) {
 
         viewModel.lastChats.observe(parent) {
             (binding?.frontPageChats?.adapter as FrontPageChatsAdapter).update(it)
@@ -94,6 +96,7 @@ class FrontPageFragment(private val parent: AppCompatActivity,
         }
 
         viewModel.openChat.observe(parent) {
+            viewModel.stopListenChat(id)
             val intent = Intent(parent.applicationContext, ChatActivity::class.java)
             intent.putExtra(ChatActivity.CHAT_ID, it.first)
             intent.putExtra(ChatActivity.PARTNER, it.second)
